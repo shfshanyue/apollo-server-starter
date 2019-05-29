@@ -1,7 +1,6 @@
-import { DocumentNode } from 'graphql'
 import { gql } from 'apollo-server-koa'
 
-const typeDef: DocumentNode = gql`
+const typeDef = gql`
   type Query {
     hello: String
   }

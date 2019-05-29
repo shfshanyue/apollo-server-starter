@@ -6,20 +6,34 @@
   "scripts": {
     "build": "tsc",
     "start": "ts-node index.ts",
-    "dev": "ts-node-dev index.ts"
+    "dev": "ts-node-dev index.ts",
+    "sync": "ts-node scripts/syncSchema",
+    "config": "ts-node scripts/pullConfig"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/bluebird": "^3.5.27",
+    "@types/consul": "^0.23.33",
     "@types/graphql": "^14.2.0",
     "@types/koa": "^2.0.48",
-    "@types/lodash": "^4.14.129",
+    "@types/lodash": "^4.14.132",
     "@types/node": "^12.0.2",
+    "@types/rimraf": "^2.0.2",
+    "@types/sequelize": "^4.28.2",
     "apollo-server-koa": "^2.5.0",
+    "bluebird": "^3.5.5",
+    "consul": "^0.34.1",
+    "dataloader-sequelize": "^1.7.10",
     "graphql": "^14.2.1",
     "graphql-tag": "^2.10.1",
-    "lodash": "^4.17.11"
+    "lodash": "^4.17.11",
+    "pg": "^6.4.2",
+    "pg-hstore": "^2.3.2",
+    "rimraf": "^2.6.3",
+    "sequelize": "^5.8.7",
+    "sequelize-auto": "^0.4.29"
   },
   "peerDependencies": {
     "graphql": "^0.13.0 || ^14.0.0"
