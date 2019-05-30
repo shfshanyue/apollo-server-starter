@@ -1,5 +1,6 @@
 import { Sequelize } from 'sequelize'
 import fs from 'fs'
+import association from './association'
 
 const { createContext } = require('dataloader-sequelize')
 
@@ -11,7 +12,7 @@ fs.readdirSync(`${__dirname}/_schemas`).forEach((file) => {
   sequelize.import(`${__dirname}/_schemas/${file}`)
 })
 
-// association(sequelize)
+association(sequelize)
 createContext(sequelize, {
   cache: true
 })
