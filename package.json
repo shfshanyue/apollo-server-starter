@@ -8,7 +8,10 @@
     "start": "ts-node index.ts",
     "dev": "ts-node-dev index.ts",
     "sync": "ts-node scripts/syncSchema",
-    "config": "ts-node scripts/pullConfig"
+    "config": "ts-node scripts/pullConfig",
+    "migrate": "sequelize db:migrate --config ./config/db.json --migrations-path ./db/migrations",
+    "migrate:new": "sequelize migration:generate --config ./config/db.json --migrations-path ./db/migrations --name $name",
+    "migrate:undo": "sequelize db:migrate:undo --config ./config/db.json --migrations-path ./db/migrations"
   },
   "keywords": [],
   "author": "",
@@ -33,7 +36,8 @@
     "pg-hstore": "^2.3.2",
     "rimraf": "^2.6.3",
     "sequelize": "^5.8.7",
-    "sequelize-auto": "^0.4.29"
+    "sequelize-auto": "^0.4.29",
+    "sequelize-cli": "^5.4.0"
   },
   "peerDependencies": {
     "graphql": "^0.13.0 || ^14.0.0"
