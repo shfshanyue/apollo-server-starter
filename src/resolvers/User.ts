@@ -2,19 +2,15 @@ import { GraphqlContext } from './../../type'
 import { gql } from 'apollo-server-koa'
 
 const typeDef = gql`
-  enum TodoStatus {
-    DONE 
-    UNDO
-  }
-
-  type Todo {
+  type User {
     id: ID!
     name: String!
-    status: TodoStatus!
+    email: String!
+    todos: [Todo!]
   }
 
   extend type Query {
-    todos: [Todo!]
+    users: [User!]
   }
 `
 
@@ -22,8 +18,8 @@ const resolver = {
   Todo: {
   },
   Query: {
-    todos ({}, {}, { models }: GraphqlContext) {
-      return models.todo.findAll()
+    users ({}, {}, { models }: GraphqlContext) {
+      return models.users.findAll()
     }
   }
 }

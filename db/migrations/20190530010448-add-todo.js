@@ -7,7 +7,7 @@ module.exports = {
         id serial primary key,
         name varchar(255) not null check(char_length(name) > 0),
         status todo_status default 'UNDO',
-        create_time timestamptz  zone default now(),
+        create_time timestamptz default now(),
         user_id int not null references users(id)
       );
     `

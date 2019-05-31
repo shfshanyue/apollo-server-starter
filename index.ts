@@ -1,10 +1,21 @@
 import Koa from 'koa'
 import { ApolloServer } from 'apollo-server-koa'
 import { typeDefs, resolvers } from './src'
+import sequelize from './db'
+import config from './config'
+import { GraphqlContext, Models } from './type'
 
 const server = new ApolloServer({
   typeDefs,
   resolvers,
+  context (): GraphqlContext {
+    return {
+      sequelize,
+      models: <Models>sequelize.models,
+      config
+    }
+  },
+  rootValue: {},
   playground: true,
   tracing: true
 })
