@@ -11,6 +11,7 @@ const typeDef = gql`
     id: ID!
     name: String!
     status: TodoStatus!
+    createTime: DateTime!
   }
 
   extend type Query {
