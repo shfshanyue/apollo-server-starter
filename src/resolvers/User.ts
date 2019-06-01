@@ -1,8 +1,6 @@
 import { GraphqlContext } from './../../type'
 import { gql } from 'apollo-server-koa'
 
-import { getModelAttrs } from '../utils'
-
 const typeDef = gql`
   type User @sql(table: "users") {
     id: ID!
@@ -21,8 +19,8 @@ const resolver = {
   Todo: {
   },
   Query: {
-    users ({}, {}, { models }: GraphqlContext, info: any) {
-      const attributes = getModelAttrs(info, models)
+    users ({}, {}, { models, utils }: GraphqlContext, info: any) {
+      const attributes = utils.getModelAttrs(info, models)
       return models.users.findAll({
         attributes
       })

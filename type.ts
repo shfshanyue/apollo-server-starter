@@ -11,5 +11,11 @@ export type Models = {
 export interface GraphqlContext {
   sequelize: Sequelize,
   models: Models,
-  config: any,
+  config: {
+    [key: string]: any
+  },
+  // TODO utils type
+  utils: {
+    [key: string]: Function
+  }
 }

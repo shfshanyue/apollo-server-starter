@@ -2,6 +2,7 @@ import Koa from 'koa'
 import { ApolloServer } from 'apollo-server-koa'
 import { typeDefs, resolvers } from './src'
 import directives from './src/directives'
+import * as utils from './src/utils'
 import sequelize from './db'
 import config from './config'
 import { GraphqlContext, Models } from './type'
@@ -13,7 +14,8 @@ const server = new ApolloServer({
     return {
       sequelize,
       models: <Models>sequelize.models,
-      config
+      config,
+      utils
     }
   },
   schemaDirectives: directives,
