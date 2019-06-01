@@ -1,6 +1,7 @@
 import Koa from 'koa'
 import { ApolloServer } from 'apollo-server-koa'
 import { typeDefs, resolvers } from './src'
+import directives from './src/directives'
 import sequelize from './db'
 import config from './config'
 import { GraphqlContext, Models } from './type'
@@ -15,6 +16,7 @@ const server = new ApolloServer({
       config
     }
   },
+  schemaDirectives: directives,
   rootValue: {},
   playground: true,
   tracing: true
