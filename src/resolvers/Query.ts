@@ -7,6 +7,11 @@ const typeDef = gql`
     col: String,
   ) on FIELD_DEFINITION | OBJECT
 
+  directive @findOption(
+    page: Int,
+    pageSize: Int
+  ) on FIELD_DEFINITION
+
   type Query {
     hello: String
   }

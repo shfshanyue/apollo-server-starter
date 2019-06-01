@@ -6,6 +6,12 @@ import {
 } from 'graphql'
 
 class SqlDirective extends SchemaDirectiveVisitor {
+  public readonly args: {
+    table?: string,
+    col?: string,
+    dep?: [string]
+  }
+
   public visitObject(object: GraphQLObjectType & { table?: string }) {
     object.table = this.args.table
   }
@@ -15,7 +21,7 @@ class SqlDirective extends SchemaDirectiveVisitor {
     const { resolve = defaultFieldResolver, name } = field
 
     field.col = col || name
-    field.dep = [...dep, col]
+    field.dep = [...dep, field.col]
 
     field.resolve = async (root, ...args) => {
       if (col) {

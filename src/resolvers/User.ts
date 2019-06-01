@@ -11,7 +11,7 @@ const typeDef = gql`
   }
 
   extend type Query {
-    users: [User!]
+    users: [User!] @findOption
   }
 `
 
@@ -19,8 +19,7 @@ const resolver: IResolverObject<any, GraphqlContext> = {
   Todo: {
   },
   Query: {
-    users ({}, {}, { models, utils }, info: any) {
-      const attributes = utils.getModelAttrs(info, models)
+    users ({}, {}, { models }, { attributes }: any) {
       return models.users.findAll({
         attributes
       })

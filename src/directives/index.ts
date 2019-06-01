@@ -1,5 +1,7 @@
 import SqlDirective from './sql'
+import FindOptionDirective from './findOption'
 
 export default {
-  sql: SqlDirective
+  sql: SqlDirective,
+  findOption: FindOptionDirective
 }

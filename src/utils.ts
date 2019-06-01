@@ -53,3 +53,24 @@ export function getModelAttrs (info: GraphQLResolveInfo, models: Models, field?:
 
   return _.uniq(attrs)
 }
+/**
+ * @param  {number=1} page
+ * @param  {number|undefined=undefined} pageSize
+ * @returns 
+ */
+
+export function parsePage (page: number | undefined, pageSize: number | undefined): {
+  limit: number | undefined,
+  offset: number | undefined
+} {
+  if (!pageSize) {
+    pageSize = !page ? undefined : 10
+  }
+  if (!page) {
+    page = 1
+  }
+  return {
+    limit: pageSize,
+    offset: pageSize ? (page - 1) * pageSize : undefined
+  }
+}

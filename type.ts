@@ -1,4 +1,5 @@
 import { Model, BuildOptions, Sequelize } from 'sequelize'
+import * as utils from './src/utils'
 
 type FindModel = typeof Model & {
   new (values?: object, options?: BuildOptions): typeof Model;
@@ -14,8 +15,5 @@ export interface GraphqlContext {
   config: {
     [key: string]: any
   },
-  // TODO utils type
-  utils: {
-    [key: string]: Function
-  }
+  utils: typeof utils
 }
