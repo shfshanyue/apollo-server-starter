@@ -1,5 +1,5 @@
 import { GraphqlContext } from './../../type'
-import { gql } from 'apollo-server-koa'
+import { gql, IResolverObject } from 'apollo-server-koa'
 
 const typeDef = gql`
   type User @sql(table: "users") {
@@ -15,11 +15,11 @@ const typeDef = gql`
   }
 `
 
-const resolver = {
+const resolver: IResolverObject<any, GraphqlContext> = {
   Todo: {
   },
   Query: {
-    users ({}, {}, { models, utils }: GraphqlContext, info: any) {
+    users ({}, {}, { models, utils }, info: any) {
       const attributes = utils.getModelAttrs(info, models)
       return models.users.findAll({
         attributes

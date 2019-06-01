@@ -1,8 +1,8 @@
 import path from 'path'
 import fs from 'fs'
 import _ from 'lodash'
-import { DocumentNode } from 'graphql';
-import { IResolvers } from 'graphql-tools';
+import { DocumentNode } from 'graphql'
+import { IResolvers } from 'graphql-tools'
 
 import { typeDef as scalarTypeDefs, resolver as scalarResovers } from './scalars'
 
