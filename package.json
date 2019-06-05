@@ -46,7 +46,8 @@
     "sequelize": "^5.8.7",
     "sequelize-auto": "^0.4.29",
     "sequelize-cli": "^5.4.0",
-    "ts-node": "^8.2.0"
+    "ts-node": "^8.2.0",
+    "validator": "^11.0.0"
   },
   "peerDependencies": {
     "graphql": "^0.13.0 || ^14.0.0"

@@ -1,4 +1,2 @@
-export default {
-  project: 'todo',
-  dependencies: ['redis', 'pg']
-}
+export const project = 'todo'
+export const dependencies = ['redis', 'pg']

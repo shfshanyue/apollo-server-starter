@@ -5,7 +5,7 @@ import _ from 'lodash'
 import fs from 'fs'
 import { getValueByKey } from '../lib/consul'
 
-import consulConfig from '../config/consul'
+import { project, dependencies } from '../config/consul'
 import projectConfig from '../config/project'
 
 const CONFIG_FILE_PATH = `${__dirname}/../config/config.json`
@@ -13,9 +13,9 @@ const DB_CONFIG_FILE_PATH = `${__dirname}/../config/db.json`
 
 const DB = 'todos'
 
-Bluebird.map([...consulConfig.dependencies, consulConfig.project], async key => {
+Bluebird.map([...dependencies, project], async key => {
   const config = await getValueByKey(key)
-  return key === projectConfig ? { ...projectConfig, ...config[consulConfig.project]} : config
+  return key === project ? { ...projectConfig, ...config[project]} : config
 }).then(configs => {
   const cfg = _.assign({}, ...configs)
   fs.writeFileSync(CONFIG_FILE_PATH, JSON.stringify(cfg, null, 2), 'utf8')

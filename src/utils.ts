@@ -1,6 +1,5 @@
 import _ from 'lodash'
-
-import { Models } from './../type'
+import crypto from 'crypto'
 import {
   GraphQLResolveInfo,
   GraphQLWrappingType,
@@ -11,6 +10,7 @@ import {
   GraphQLField,
   GraphQLFieldMap
 } from "graphql"
+import { Models } from './../type'
 
 const graphqlFields = require('graphql-fields')
 
@@ -73,4 +73,8 @@ export function parsePage (page: number | undefined, pageSize: number | undefine
     limit: pageSize,
     offset: pageSize ? (page - 1) * pageSize : undefined
   }
+}
+
+export function hash (str: string, salt: string): string {
+  return crypto.createHash('md5').update(`${str}-${salt}`, 'utf8').digest('hex')
 }

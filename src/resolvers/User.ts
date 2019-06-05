@@ -13,6 +13,10 @@ const typeDef = gql`
   extend type Query {
     users: [User!] @findOption
   }
+
+  extend type Mutation {
+    createUser: User!
+  }
 `
 
 const resolver: IResolverObject<any, AppContext> = {
@@ -22,6 +26,15 @@ const resolver: IResolverObject<any, AppContext> = {
     users ({}, {}, { models }, { attributes }: any) {
       return models.users.findAll({
         attributes
+      })
+    }
+  },
+  Mutation: {
+    createUser ({}, { name, email, password }, { models, utils, config }) {
+      return models.users.create({
+        name,
+        email,
+        password: utils.hash(password, config.salt)
       })
     }
   }
