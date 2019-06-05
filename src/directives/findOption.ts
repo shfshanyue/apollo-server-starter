@@ -1,4 +1,4 @@
-import { GraphqlContext } from './../../type'
+import { AppContext } from './../../type'
 import { SchemaDirectiveVisitor } from 'graphql-tools'
 import { GraphQLField, defaultFieldResolver } from 'graphql'
 
@@ -8,7 +8,7 @@ class FindOptionDirective extends SchemaDirectiveVisitor {
     pageSize?: number
   }
 
-  visitFieldDefinition (field: GraphQLField<any, GraphqlContext> & { col?: string, dep?: string[] }) {
+  visitFieldDefinition (field: GraphQLField<any, AppContext> & { col?: string, dep?: string[] }) {
     const { resolve = defaultFieldResolver } = field
 
     field.resolve = async (root, args, ctx, info) => {

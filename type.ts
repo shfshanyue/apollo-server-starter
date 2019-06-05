@@ -9,7 +9,7 @@ export type Models = {
   [key: string]: FindModel
 }
 
-export interface GraphqlContext {
+export interface AppContext {
   sequelize: Sequelize,
   models: Models,
   config: {

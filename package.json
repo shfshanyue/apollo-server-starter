@@ -6,7 +6,8 @@
   "scripts": {
     "build": "tsc",
     "start": "ts-node index.ts",
-    "dev": "ts-node-dev index.ts",
+    "dev": "nodemon index.ts",
+    "debug": "nodemon --exec 'node --inspect=0.0.0.0:9930 --require ts-node/register index.ts'",
     "sync": "ts-node scripts/syncSchema",
     "config": "ts-node scripts/pullConfig",
     "migrate": "sequelize db:migrate --config ./config/db.json --migrations-path ./db/migrations",
@@ -28,6 +29,7 @@
     "@types/rimraf": "^2.0.2",
     "@types/sequelize": "^4.28.2",
     "apollo-server-koa": "^2.5.0",
+    "axios": "^0.19.0",
     "bluebird": "^3.5.5",
     "consul": "^0.34.1",
     "dataloader-sequelize": "^1.7.10",
@@ -37,19 +39,19 @@
     "graphql-tag": "^2.10.1",
     "graphql-type-json": "^0.3.0",
     "lodash": "^4.17.11",
+    "nodemon": "^1.19.1",
     "pg": "^6.4.2",
     "pg-hstore": "^2.3.2",
     "rimraf": "^2.6.3",
     "sequelize": "^5.8.7",
     "sequelize-auto": "^0.4.29",
-    "sequelize-cli": "^5.4.0"
+    "sequelize-cli": "^5.4.0",
+    "ts-node": "^8.2.0"
   },
   "peerDependencies": {
     "graphql": "^0.13.0 || ^14.0.0"
   },
   "devDependencies": {
-    "nodemon": "^1.19.0",
-    "ts-node-dev": "^1.0.0-pre.39",
     "typescript": "^3.4.5"
   }
 }

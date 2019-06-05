@@ -1,4 +1,4 @@
-import { GraphqlContext } from './../../type'
+import { AppContext } from './../../type'
 import { gql, IResolverObject } from 'apollo-server-koa'
 
 const typeDef = gql`
@@ -15,7 +15,7 @@ const typeDef = gql`
   }
 `
 
-const resolver: IResolverObject<any, GraphqlContext> = {
+const resolver: IResolverObject<any, AppContext> = {
   Todo: {
   },
   Query: {

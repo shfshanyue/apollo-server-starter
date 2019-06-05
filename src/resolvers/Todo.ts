@@ -1,5 +1,5 @@
-import { GraphqlContext } from './../../type'
-import { gql } from 'apollo-server-koa'
+import { AppContext } from './../../type'
+import { gql, IResolverObject } from 'apollo-server-koa'
 
 const typeDef = gql`
   enum TodoStatus {
@@ -19,11 +19,11 @@ const typeDef = gql`
   }
 `
 
-const resolver = {
+const resolver: IResolverObject<any, AppContext> = {
   Todo: {
   },
   Query: {
-    todos ({}, {}, { models }: GraphqlContext) {
+    todos ({}, {}, { models }) {
       return models.todo.findAll()
     }
   }

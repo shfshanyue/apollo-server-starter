@@ -1,4 +1,4 @@
-import { Sequelize } from 'sequelize'
+import { Sequelize } from 'Sequelize'
 import { Models } from './../type'
 
 

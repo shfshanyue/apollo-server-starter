@@ -1,3 +1,4 @@
+import { AppContext } from './../type'
 import path from 'path'
 import fs from 'fs'
 import _ from 'lodash'
@@ -8,7 +9,7 @@ import { typeDef as scalarTypeDefs, resolver as scalarResovers } from './scalars
 
 interface Resolver {
   typeDefs: DocumentNode[],
-  resolvers: IResolvers
+  resolvers: IResolvers<any, AppContext>
 }
 
 const initResolver: Resolver = {
