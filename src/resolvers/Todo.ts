@@ -23,9 +23,6 @@ const resolver: IResolverObject<any, AppContext> = {
   Todo: {
   },
   Query: {
-    todos ({}, {}, { models }) {
-      return models.todo.findAll()
-    }
   }
 }
 

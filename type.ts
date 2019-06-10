@@ -1,6 +1,7 @@
-import { ProjectConfig } from './type';
-import { Model, BuildOptions, Sequelize, Options } from 'sequelize'
+import { ProjectConfig } from './type'
+import { Sequelize } from 'sequelize-typescript'
 import * as utils from './src/utils'
+import { models } from './db'
 
 export interface Dictionary<T> {
   [index: string]: T;
@@ -12,11 +13,7 @@ export interface NumericDictionary<T> {
 
 export type Many<T> = T | Readonly<T[]>;
 
-export type BaseModel = typeof Model & {
-  new (values?: object, options?: BuildOptions): typeof Model;
-}
-
-export type Models = Dictionary<BaseModel>
+export type Models = typeof models
 
 export interface ProjectConfig {
   salt: string

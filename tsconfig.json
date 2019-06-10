@@ -19,14 +19,13 @@
     "noUnusedLocals": true,
     "forceConsistentCasingInFileNames": true,
     "lib": ["es2017", "esnext.asynciterable"],
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
     "types": ["node"],
     "outDir": "dist"
   },
   "exclude": [
     "node_modules",
     "dist"
-  ],
-  "include": [
-    "config/config.json"
   ]
 }

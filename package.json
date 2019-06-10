@@ -44,10 +44,12 @@
     "nodemon": "^1.19.1",
     "pg": "^6.4.2",
     "pg-hstore": "^2.3.2",
+    "reflect-metadata": "^0.1.13",
     "rimraf": "^2.6.3",
     "sequelize": "^5.8.7",
     "sequelize-auto": "^0.4.29",
     "sequelize-cli": "^5.4.0",
+    "sequelize-typescript": "^1.0.0-beta.3",
     "ts-node": "^8.2.0",
     "validator": "^11.0.0"
   },

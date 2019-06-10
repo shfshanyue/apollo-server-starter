@@ -4,9 +4,9 @@ import { formatError } from './lib/error'
 import { typeDefs, resolvers } from './src'
 import directives from './src/directives'
 import * as utils from './src/utils'
-import sequelize from './db'
+import sequelize, { models } from './db'
 import config from './config'
-import { AppContext, Models } from './type'
+import { AppContext } from './type'
 
 const server = new ApolloServer({
   typeDefs,
@@ -14,7 +14,7 @@ const server = new ApolloServer({
   context (): AppContext {
     return {
       sequelize,
-      models: <Models>sequelize.models,
+      models,
       config,
       utils
     }

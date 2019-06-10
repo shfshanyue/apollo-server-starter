@@ -1,6 +1,6 @@
-import { AppContext } from './../../type'
 import { SchemaDirectiveVisitor } from 'graphql-tools'
 import { GraphQLField, defaultFieldResolver } from 'graphql'
+import { AppContext } from './../../type'
 
 class FindOptionDirective extends SchemaDirectiveVisitor {
   public readonly args: {

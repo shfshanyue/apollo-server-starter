@@ -10,7 +10,8 @@ import {
   GraphQLField,
   GraphQLFieldMap
 } from "graphql"
-import { Models } from './../type'
+import { Model } from 'Sequelize'
+import { Dictionary } from './../type'
 
 const graphqlFields = require('graphql-fields')
 
@@ -21,7 +22,7 @@ function getObjectType (type: GraphQLWrappingType): GraphQLObjectType {
   return type
 }
 
-export function getModelAttrs (info: GraphQLResolveInfo, models: Models, field?: string): string[] {
+export function getModelAttrs (info: GraphQLResolveInfo, models: Dictionary<typeof Model>, field?: string): string[] {
   let type: GraphQLType = isWrappingType(info.returnType) ? getObjectType(info.returnType) : info.returnType
 
   if (field) {

@@ -50,7 +50,7 @@ const resolver: IResolverObject<any, AppContext> = {
       })
     },
     dbError ({}, {}, { models }) {
-      return models.todo.count({
+      return models.User.count({
         where: {
           a: 3
         }

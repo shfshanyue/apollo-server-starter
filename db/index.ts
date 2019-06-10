@@ -1,20 +1,22 @@
-import { Sequelize } from 'Sequelize'
-import fs from 'fs'
-import association from './association'
+import { Sequelize } from 'sequelize-typescript'
+import * as models from './models'
 
 const { createContext } = require('dataloader-sequelize')
 
 const config = require('../config/db.json')
-const sequelize = new Sequelize(config)
-
-// import all schemas
-fs.readdirSync(`${__dirname}/_schemas`).forEach((file) => {
-  sequelize.import(`${__dirname}/_schemas/${file}`)
+const sequelize = new Sequelize({
+  ...config,
+  define: {
+    timestamps: false,
+    underscored: true
+  }
 })
 
-association(sequelize)
+sequelize.addModels(Object.values(models))
+
 createContext(sequelize, {
   cache: true
 })
 
 export default sequelize
+export { models }

@@ -13,7 +13,7 @@ class SqlDirective extends SchemaDirectiveVisitor {
   }
 
   public visitObject(object: GraphQLObjectType & { table?: string }) {
-    object.table = this.args.table
+    object.table = this.args.table || object.name
   }
 
   public visitFieldDefinition(field: GraphQLField<any, any> & { col?: string, dep?: string[] }) {
