@@ -9,6 +9,9 @@ const sequelize = new Sequelize({
   define: {
     timestamps: false,
     underscored: true
+  },
+  logging (sql, timing) {
+    console.log(sql, timing)
   }
 })
 

@@ -10,8 +10,9 @@ import {
   GraphQLField,
   GraphQLFieldMap
 } from "graphql"
-import { Model } from 'Sequelize'
+import { Model } from 'sequelize'
 import { Dictionary } from './../type'
+import config from '../config'
 
 const graphqlFields = require('graphql-fields')
 
@@ -76,6 +77,6 @@ export function parsePage (page: number | undefined, pageSize: number | undefine
   }
 }
 
-export function hash (str: string, salt: string): string {
-  return crypto.createHash('md5').update(`${str}-${salt}`, 'utf8').digest('hex')
+export function hash (str: string): string {
+  return crypto.createHash('md5').update(`${str}-${config.salt}`, 'utf8').digest('hex')
 }

@@ -1,5 +1,6 @@
+import { ApolloError } from 'apollo-server-koa'
 import { GraphQLError, GraphQLFormattedError } from 'graphql'
-import { BaseError, UniqueConstraintError } from 'Sequelize'
+import { BaseError, UniqueConstraintError } from 'sequelize'
 import _ from 'lodash'
 import { AxiosError } from 'axios'
 import Joi from '@hapi/joi'
@@ -22,6 +23,10 @@ function isUniqueConstraintError (error: any): error is UniqueConstraintError {
   return error instanceof UniqueConstraintError
 }
 
+function isApolloError (error: any): error is ApolloError {
+  return error instanceof ApolloError
+}
+
 export function formatError (error: GraphQLError): GraphQLFormattedError {
   let code: string = _.get(error, 'extensions.code', 'BAD_REQUEST')
   let info: any = {}
@@ -37,6 +42,8 @@ export function formatError (error: GraphQLError): GraphQLFormattedError {
     if (isUniqueConstraintError(originalError)) {
       info = originalError.fields
     }
+  } else if (isApolloError(originalError)){
+
   } else {
     code = _.get(originalError, 'code', code)
   }

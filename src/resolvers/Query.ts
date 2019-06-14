@@ -15,6 +15,10 @@ const typeDef = gql`
     pageSize: Int
   ) on FIELD_DEFINITION
 
+  directive @auth(
+    roles: [String]
+  ) on FIELD_DEFINITION
+
   type Query {
     hello: String
 
@@ -23,6 +27,8 @@ const typeDef = gql`
     dbError: Int
     readError: Int
     apolloError: Int
+
+    authInfo: Int @auth
   }
 `
 
@@ -55,6 +61,9 @@ const resolver: IResolverObject<any, AppContext> = {
           a: 3
         }
       })
+    },
+    authInfo () {
+      return 10
     }
   }
 }
