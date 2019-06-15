@@ -1,8 +1,9 @@
-import { Table, Column, Model, AutoIncrement, PrimaryKey } from 'sequelize-typescript'
+import { Table, Column, Model, AutoIncrement, PrimaryKey, HasMany } from 'sequelize-typescript'
 import { ENUM } from 'sequelize'
+import { Todo } from './Todo';
 
 @Table({
-  modelName: 'users'
+  tableName: 'users'
 })
 export class User extends Model<User> {
   @AutoIncrement
@@ -21,4 +22,7 @@ export class User extends Model<User> {
 
   @Column(ENUM('USER', 'ADMIN'))
   role: 'USER' | 'ADMIN';
+
+  @HasMany(() => Todo)
+  todos: Todo[]
 }

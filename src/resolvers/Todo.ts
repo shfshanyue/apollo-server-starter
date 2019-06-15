@@ -12,6 +12,7 @@ const typeDef = gql`
     name: String!
     status: TodoStatus!
     createTime: DateTime!
+    user: User!
   }
 
   extend type Query {
@@ -21,6 +22,9 @@ const typeDef = gql`
 
 const resolver: IResolverObject<any, AppContext> = {
   Todo: {
+    user (todo) {
+      return todo.$get('user')
+    }
   },
   Query: {
   }
