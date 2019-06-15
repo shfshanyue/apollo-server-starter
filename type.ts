@@ -1,5 +1,6 @@
-import { ProjectConfig } from './type'
 import { Sequelize } from 'sequelize-typescript'
+import { ParameterizedContext } from 'koa'
+import { ProjectConfig } from './type'
 import * as utils from './src/utils'
 import { models } from './db'
 
@@ -41,5 +42,9 @@ export interface AppContext {
   models: Models;
   config: AppConfig;
   utils: typeof utils;
-  user?: UserContext
+  user?: UserContext;
+};
+
+export interface KoaContext extends ParameterizedContext {
+  user?: UserContext;
 };

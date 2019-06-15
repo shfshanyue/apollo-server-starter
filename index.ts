@@ -6,17 +6,19 @@ import directives from './src/directives'
 import * as utils from './src/utils'
 import sequelize, { models } from './db'
 import config from './config'
-import { AppContext } from './type'
+import { AppContext, KoaContext } from './type'
+import { auth } from './middlewares'
 
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  context (): AppContext {
+  context ({ ctx }: { ctx: KoaContext }): AppContext {
     return {
       sequelize,
       models,
       config,
-      utils
+      utils,
+      user: ctx.user
     }
   },
   formatError,
@@ -26,8 +28,10 @@ const server = new ApolloServer({
   tracing: true
 })
 
-const app = new Koa();
-server.applyMiddleware({ app });
+const app = new Koa()
+app.use(auth)
+
+server.applyMiddleware({ app })
 
 const port = process.env.PORT || 4000
 app.listen({ port }, () =>
