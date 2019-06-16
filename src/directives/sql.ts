@@ -18,10 +18,9 @@ class SqlDirective extends SchemaDirectiveVisitor {
 
   public visitFieldDefinition(field: GraphQLField<any, any> & { col?: string, dep?: string[] }) {
     const { col, dep = [] } = this.args
-    const { resolve = defaultFieldResolver, name } = field
+    const { resolve = defaultFieldResolver } = field
 
-    field.col = col || name
-    field.dep = [...dep, field.col]
+    field.dep = col ? [...dep, col] : dep
 
     field.resolve = async (root, ...args) => {
       if (col) {

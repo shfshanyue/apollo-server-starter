@@ -7,12 +7,12 @@ const typeDef = gql`
     UNDO
   }
 
-  type Todo {
+  type Todo @sql {
     id: ID!
     name: String!
     status: TodoStatus!
     createTime: DateTime!
-    user: User!
+    user: User! @sql(dep: ["userId"]) @findOption
   }
 
   extend type Query {
@@ -22,8 +22,10 @@ const typeDef = gql`
 
 const resolver: IResolverObject<any, AppContext> = {
   Todo: {
-    user (todo) {
-      return todo.$get('user')
+    user (todo, {}, {}, { attributes }: any) {
+      return todo.$get('user', {
+        attributes
+      })
     }
   },
   Query: {

@@ -23,7 +23,7 @@ function getObjectType (type: GraphQLWrappingType): GraphQLObjectType {
   return type
 }
 
-export function getModelAttrs (info: GraphQLResolveInfo, models: Dictionary<typeof Model>, field?: string): string[] {
+export function getModelAttrs (info: GraphQLResolveInfo, models: Dictionary<typeof Model>, field?: string): string[] | undefined {
   let type: GraphQLType = isWrappingType(info.returnType) ? getObjectType(info.returnType) : info.returnType
 
   if (field) {
@@ -31,7 +31,7 @@ export function getModelAttrs (info: GraphQLResolveInfo, models: Dictionary<type
 
   // TODO interface
   if (!isObjectType(type) || !_.get(type, 'table')) {
-    return []
+    return
   }
 
   const requestFields: string[] = Object.keys(graphqlFields(info, {}, { excludedFields: ['__typename'] }))
