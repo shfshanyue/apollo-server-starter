@@ -1,8 +1,7 @@
-import { gql, IResolverObject } from 'apollo-server-koa'
+import { gql } from 'apollo-server-koa'
 import * as Joi from '@hapi/joi'
 import jwt from 'jsonwebtoken'
-import { AppContext } from './../../type'
-import { models } from '../../db'
+import { SequelizeResolverObject } from './../../type'
 
 const typeDef = gql`
   type User @sql {
@@ -33,12 +32,7 @@ const typeDef = gql`
   }
 `
 
-interface Resolver {
-  User: IResolverObject<models.User, AppContext>,
-  [key: string]: IResolverObject<any, AppContext>
-}
-
-const resolver: Resolver = {
+const resolver: SequelizeResolverObject = {
   User: {
     todos (user, {}, {}, { attributes }: any) {
       return user.$get('todos', {

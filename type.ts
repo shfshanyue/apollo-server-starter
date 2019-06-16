@@ -3,6 +3,8 @@ import { ParameterizedContext } from 'koa'
 import { ProjectConfig } from './type'
 import * as utils from './src/utils'
 import { models } from './db'
+import { IResolverObject } from 'graphql-tools'
+import { WithRequired } from 'apollo-env'
 
 export interface Dictionary<T> {
   [index: string]: T;
@@ -48,3 +50,11 @@ export interface AppContext {
 export interface KoaContext extends ParameterizedContext {
   user?: UserContext;
 };
+
+type ResolverModel<T> = IResolverObject<T, Required<AppContext>>
+
+export type SequelizeResolverObject = {
+  // [key in keyof typeof models]?: IResolverObject<models[key], AppContext>
+  User?: ResolverModel<models.User>;
+  Todo?: ResolverModel<models.Todo>;
+} & IResolverObject<any, Required<AppContext>>
