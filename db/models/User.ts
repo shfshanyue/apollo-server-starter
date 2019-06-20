@@ -18,6 +18,9 @@ export class User extends Model<User> {
   email: string;
 
   @Column
+  password: string;
+
+  @Column
   createTime: Date;
 
   @Column(ENUM('USER', 'ADMIN'))

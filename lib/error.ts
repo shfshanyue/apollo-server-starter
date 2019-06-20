@@ -27,15 +27,19 @@ function isApolloError (error: any): error is ApolloError {
   return error instanceof ApolloError
 }
 
+function isError (error: any): error is Error {
+  return error instanceof Error
+}
+
 export function formatError (error: GraphQLError): GraphQLFormattedError {
   let code: string = _.get(error, 'extensions.code', 'BAD_REQUEST')
   let info: any = {}
 
-  const originalError = error.originalError
+  const originalError: any = error.originalError
   if (isAxiosError(originalError)) {
-    code = `Axios-${originalError.code}`
+    code = `Request${originalError.code}`
   } else if (isJoiValidationError(originalError)) {
-    code = 'Joi-ValidationError'
+    code = 'JoiValidationError'
     info = originalError.details
   } else if (isSequelizeError(originalError)) {
     code = originalError.name
@@ -43,9 +47,9 @@ export function formatError (error: GraphQLError): GraphQLFormattedError {
       info = originalError.fields
     }
   } else if (isApolloError(originalError)){
-
-  } else {
-    code = _.get(originalError, 'code', code)
+    code = originalError.code
+  } else if (isError(originalError)) {
+    code = _.get(originalError, 'code', originalError.name)
   }
 
   const formatError = {

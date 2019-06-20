@@ -22,11 +22,12 @@ const typeDef = gql`
   type Query {
     hello: String
 
-    graphqlError: Int
+    graphqlError: Int!
     reqError: Int
     dbError: Int
     readError: Int
     apolloError: Int
+    typeError: Int
 
     authInfo: Int @auth
   }
@@ -36,6 +37,10 @@ const resolver: IResolverObject<any, AppContext> = {
   Query: {
     hello () {
       return 'hello, world'
+    },
+    typeError () {
+      const o: any = undefined
+      return o.a
     },
     graphqlError () {},
     reqError () {
