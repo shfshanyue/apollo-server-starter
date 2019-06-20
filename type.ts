@@ -1,10 +1,10 @@
+import { Exception } from './lib/error'
 import { Sequelize } from 'sequelize-typescript'
 import { ParameterizedContext } from 'koa'
 import { ProjectConfig } from './type'
 import * as utils from './src/utils'
 import { models } from './db'
 import { IResolverObject } from 'graphql-tools'
-import { WithRequired } from 'apollo-env'
 
 export interface Dictionary<T> {
   [index: string]: T;
@@ -21,6 +21,7 @@ export type Models = typeof models;
 export interface ProjectConfig {
   salt: string;
   jwtSecret: string;
+  sentryDSN: string;
 }
 
 export type AppConfig = {
@@ -45,6 +46,7 @@ export interface AppContext {
   config: AppConfig;
   utils: typeof utils;
   user?: UserContext;
+  Exception: typeof Exception;
 };
 
 export interface KoaContext extends ParameterizedContext {

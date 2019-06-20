@@ -1,6 +1,6 @@
 import { ApolloServer } from 'apollo-server-koa'
 import Koa from 'koa'
-import { formatError } from './lib/error'
+import { formatError, Exception } from './lib/error'
 import { typeDefs, resolvers } from './src'
 import directives from './src/directives'
 import * as utils from './src/utils'
@@ -18,6 +18,7 @@ const server = new ApolloServer({
       models,
       config,
       utils,
+      Exception,
       user: ctx.user
     }
   },

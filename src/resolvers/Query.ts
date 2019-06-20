@@ -1,4 +1,4 @@
-import { gql, ApolloError, IResolverObject } from 'apollo-server-koa'
+import { gql, IResolverObject } from 'apollo-server-koa'
 import axios from 'axios'
 import fs from 'fs'
 import { AppContext } from './../../type'
@@ -26,7 +26,7 @@ const typeDef = gql`
     reqError: Int
     dbError: Int
     readError: Int
-    apolloError: Int
+    exception: Int
     typeError: Int
 
     authInfo: Int @auth
@@ -54,11 +54,8 @@ const resolver: IResolverObject<any, AppContext> = {
     readError () {
       fs.readFileSync('/does/not/exist');
     },
-    apolloError () {
-      return new ApolloError('ApolloError', undefined, {
-        a: 3,
-        b: 4
-      })
+    exception ({}, {}, { Exception }) {
+      return new Exception('Exception', undefined, { a: 3 })
     },
     dbError ({}, {}, { models }) {
       return models.User.count({

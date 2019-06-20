@@ -4,6 +4,8 @@ import { BaseError, UniqueConstraintError } from 'sequelize'
 import _ from 'lodash'
 import { AxiosError } from 'axios'
 import Joi from '@hapi/joi'
+import Sentry from './sentry'
+import { Severity } from '@sentry/node';
 
 const isProduction = process.env.NODE_ENV === 'production'
 
@@ -31,13 +33,29 @@ function isError (error: any): error is Error {
   return error instanceof Error
 }
 
+const enum APP_ERROR_CODE {
+  // 如果 code 为 BadRequest, 则客户端可以直接展示 message
+  BadRequest
+}
+
+export class Exception extends ApolloError {
+  constructor (message: string, code: keyof typeof APP_ERROR_CODE = 'BadRequest', properties: Record<string, any> = {}) {
+    super(message, `App${code}`, {
+      level: Severity.Warning,
+      ...properties
+    })
+  }
+}
+
 export function formatError (error: GraphQLError): GraphQLFormattedError {
-  let code: string = _.get(error, 'extensions.code', 'BAD_REQUEST')
-  let info: any = {}
+  let code: string = _.get(error, 'extensions.code', 'Error')
+  let info: any
+  let level = Severity.Error
 
   const originalError: any = error.originalError
   if (isAxiosError(originalError)) {
     code = `Request${originalError.code}`
+    level = Severity.Warning
   } else if (isJoiValidationError(originalError)) {
     code = 'JoiValidationError'
     info = originalError.details
@@ -45,11 +63,13 @@ export function formatError (error: GraphQLError): GraphQLFormattedError {
     code = originalError.name
     if (isUniqueConstraintError(originalError)) {
       info = originalError.fields
+      level = Severity.Warning
     }
   } else if (isApolloError(originalError)){
-    code = originalError.code
+    level = originalError.level || Severity.Warning
   } else if (isError(originalError)) {
     code = _.get(originalError, 'code', originalError.name)
+    level = Severity.Fatal
   }
 
   const formatError = {
@@ -60,7 +80,13 @@ export function formatError (error: GraphQLError): GraphQLFormattedError {
       info
     }
   }
+  Sentry.withScope(scope => {
+    scope.setTag('code', code)
+    scope.setLevel(level)
+    Sentry.captureException(formatError)
+  })
   if (!isProduction) {
+    // if in dev, print formatError
     console.error(formatError)
   }
   return {
