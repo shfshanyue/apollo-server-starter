@@ -1,5 +1,6 @@
 import { ApolloServer } from 'apollo-server-koa'
 import Koa from 'koa'
+import bodyParser from 'koa-bodyparser'
 import { formatError, Exception } from './lib/error'
 import { typeDefs, resolvers } from './src'
 import directives from './src/directives'
@@ -7,7 +8,7 @@ import * as utils from './src/utils'
 import sequelize, { models } from './db'
 import config from './config'
 import { AppContext, KoaContext } from './type'
-import { auth } from './middlewares'
+import { auth, sentry } from './middlewares'
 
 const server = new ApolloServer({
   typeDefs,
@@ -30,8 +31,9 @@ const server = new ApolloServer({
 })
 
 const app = new Koa()
+app.use(bodyParser())
 app.use(auth)
-
+app.use(sentry)
 server.applyMiddleware({ app })
 
 const port = process.env.PORT || 4000

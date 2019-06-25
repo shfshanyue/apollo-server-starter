@@ -55,7 +55,6 @@ export function formatError (error: GraphQLError): GraphQLFormattedError {
   const originalError: any = error.originalError
   if (isAxiosError(originalError)) {
     code = `Request${originalError.code}`
-    level = Severity.Warning
   } else if (isJoiValidationError(originalError)) {
     code = 'JoiValidationError'
     info = originalError.details
@@ -83,7 +82,8 @@ export function formatError (error: GraphQLError): GraphQLFormattedError {
   Sentry.withScope(scope => {
     scope.setTag('code', code)
     scope.setLevel(level)
-    Sentry.captureException(formatError)
+    scope.setExtras(formatError)
+    Sentry.captureException(originalError || error)
   })
   if (!isProduction) {
     // if in dev, print formatError
