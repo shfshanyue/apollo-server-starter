@@ -30,6 +30,12 @@ export type AppConfig = {
     port: string;
     host: string;
     username: string;
+    password: string;
+  },
+  redis: {
+    port: string;
+    host: string;
+    password: string;
   }
 } & ProjectConfig;
 
