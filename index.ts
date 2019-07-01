@@ -2,6 +2,7 @@ import { ApolloServer } from 'apollo-server-koa'
 import Koa from 'koa'
 import bodyParser from 'koa-bodyparser'
 import { formatError, Exception } from './lib/error'
+import { apiLogger } from './lib/logger'
 import { typeDefs, resolvers } from './src'
 import directives from './src/directives'
 import * as utils from './src/utils'
@@ -14,6 +15,10 @@ const server = new ApolloServer({
   typeDefs,
   resolvers,
   context ({ ctx }: { ctx: KoaContext }): AppContext {
+    apiLogger.info('Request', {
+      request: ctx.request,
+      user: ctx.user
+    })
     return {
       sequelize,
       models,
@@ -24,6 +29,11 @@ const server = new ApolloServer({
     }
   },
   formatError,
+  formatResponse (response: any) {
+    apiLogger.info('Response', {
+      response
+    })
+  },
   schemaDirectives: directives,
   rootValue: {},
   playground: true,

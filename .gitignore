@@ -3,3 +3,4 @@ dist
 config/config.json
 config/db.json
 db/_schemas
+logs

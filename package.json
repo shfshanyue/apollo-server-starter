@@ -54,7 +54,8 @@
     "sequelize-cli": "^5.4.0",
     "sequelize-typescript": "^1.0.0-beta.3",
     "ts-node": "^8.2.0",
-    "validator": "^11.0.0"
+    "validator": "^11.0.0",
+    "winston": "^3.2.1"
   },
   "peerDependencies": {
     "graphql": "^0.13.0 || ^14.0.0"

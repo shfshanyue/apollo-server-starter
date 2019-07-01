@@ -1,4 +1,5 @@
 import { Sequelize } from 'sequelize-typescript'
+import { dbLogger } from '../lib/logger'
 import * as models from './models'
 
 const { createContext } = require('dataloader-sequelize')
@@ -10,8 +11,8 @@ const sequelize = new Sequelize({
     timestamps: false,
     underscored: true
   },
-  logging (sql, timing: any) {
-    console.log(sql, timing)
+  logging (sql, timing) {
+    dbLogger.info(sql, { timing })
   }
 })
 

@@ -51,6 +51,7 @@ export interface AppContext {
 
 export interface KoaContext extends ParameterizedContext {
   user?: UserContext;
+  requestId: string;
 };
 
 type ResolverModel<T> = IResolverObject<T, Required<AppContext>>
