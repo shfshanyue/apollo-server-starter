@@ -5,6 +5,7 @@ import _ from 'lodash'
 import { formatError, Exception } from './lib/error'
 import { apiLogger } from './lib/logger'
 import { session } from './lib/session'
+import { redis } from './lib/redis'
 import { typeDefs, resolvers } from './src'
 import directives from './src/directives'
 import * as utils from './src/utils'
@@ -26,6 +27,7 @@ const server = new ApolloServer({
       models,
       config,
       utils,
+      redis,
       Exception,
       user: ctx.user
     }

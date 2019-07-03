@@ -1,10 +1,11 @@
-import { Exception } from './lib/error'
 import { Sequelize } from 'sequelize-typescript'
 import { ParameterizedContext } from 'koa'
+import { IResolverObject } from 'graphql-tools'
+import { Redis } from 'ioredis'
 import { ProjectConfig } from './type'
 import * as utils from './src/utils'
+import { Exception } from './lib/error'
 import { models } from './db'
-import { IResolverObject } from 'graphql-tools'
 
 export interface Dictionary<T> {
   [index: string]: T;
@@ -51,6 +52,7 @@ export interface AppContext {
   models: Models;
   config: AppConfig;
   utils: typeof utils;
+  redis: Redis;
   user?: UserContext;
   Exception: typeof Exception;
 };

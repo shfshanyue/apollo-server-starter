@@ -28,6 +28,7 @@ const typeDef = gql`
     readError: Int
     exception: Int
     typeError: Int
+    cache: Int
 
     authInfo: Int @auth
   }
@@ -37,6 +38,9 @@ const resolver: IResolverObject<any, AppContext> = {
   Query: {
     hello () {
       return 'hello, world'
+    },
+    cache ({}, {}, { redis }) {
+      return redis.get('hello')
     },
     typeError () {
       const o: any = undefined

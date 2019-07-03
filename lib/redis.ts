@@ -11,10 +11,10 @@ const { sendCommand } = Redis.prototype
 Redis.prototype.sendCommand = async function (...options: any[]) {
   const response = await sendCommand.call(this, ...options);
   redisLogger.info(options[0].name, {
-    ...options,
+    ...options[0],
     response
   })
   return response
 }
 
-module.exports = redis
+export { redis }
