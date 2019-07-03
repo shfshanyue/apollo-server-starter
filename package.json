@@ -33,7 +33,7 @@
     "@types/node": "^12.0.2",
     "@types/rimraf": "^2.0.2",
     "@types/sequelize": "^4.28.3",
-    "apollo-server-koa": "^2.6.3",
+    "apollo-server-koa": "^2.6.7",
     "axios": "^0.19.0",
     "bluebird": "^3.5.5",
     "cls-hooked": "^4.2.2",
