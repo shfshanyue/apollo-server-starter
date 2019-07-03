@@ -1,8 +1,10 @@
 import { ApolloServer } from 'apollo-server-koa'
 import Koa from 'koa'
 import bodyParser from 'koa-bodyparser'
+import _ from 'lodash'
 import { formatError, Exception } from './lib/error'
 import { apiLogger } from './lib/logger'
+import { session } from './lib/session'
 import { typeDefs, resolvers } from './src'
 import directives from './src/directives'
 import * as utils from './src/utils'
@@ -29,9 +31,9 @@ const server = new ApolloServer({
     }
   },
   formatError,
-  formatResponse (response: any) {
+  formatResponse () {
     apiLogger.info('Response', {
-      response
+      response: 3
     })
   },
   schemaDirectives: directives,
@@ -41,6 +43,11 @@ const server = new ApolloServer({
 })
 
 const app = new Koa()
+app.use(async ({}, next) => {
+  await session.runPromise(() => {
+    return next()
+  })
+})
 app.use(bodyParser())
 app.use(auth)
 app.use(sentry)

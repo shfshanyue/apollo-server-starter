@@ -1,5 +1,11 @@
 import winston, { format } from 'winston'
 import os from 'os'
+import { session } from './session'
+
+const requestId = format((info) => {
+  info.requestId = session.get('requestId')
+  return info
+})
 
 function createLogger (label: string) {
   return winston.createLogger({
@@ -9,6 +15,7 @@ function createLogger (label: string) {
     },
     format: format.combine(
       format.timestamp(),
+      requestId(),
       format.json()
     ),
     transports: [

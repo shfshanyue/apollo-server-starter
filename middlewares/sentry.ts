@@ -1,5 +1,6 @@
 import _ from 'lodash'
 import Sentry from '../lib/sentry'
+import { session } from '../lib/session'
 import { KoaContext } from '../type'
 
 // Sentry Context && Tracing
@@ -13,6 +14,7 @@ export async function sentry (ctx: KoaContext, next: any) {
     scope.addEventProcessor(event => Sentry.Handlers.parseRequest(event, ctx.request))
     const requestId = ctx.header['x-request-id'] || Math.random().toString(36).substr(2, 9)
     ctx.requestId = requestId
+    session.set('requestId', requestId)
     scope.setTags(_.pickBy({
       requestId,
       query: _.get(ctx.request.body, 'operationName')
