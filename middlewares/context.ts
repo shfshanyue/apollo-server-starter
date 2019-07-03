@@ -4,7 +4,7 @@ import { session } from '../lib/session'
 import { KoaContext } from '../type'
 
 // Sentry Context && Tracing
-export async function sentry (ctx: KoaContext, next: any) {
+export async function context (ctx: KoaContext, next: any) {
   Sentry.configureScope(scope => {
     scope.clear()
     ctx.user && scope.setUser({
@@ -14,6 +14,7 @@ export async function sentry (ctx: KoaContext, next: any) {
     scope.addEventProcessor(event => Sentry.Handlers.parseRequest(event, ctx.request))
     const requestId = ctx.header['x-request-id'] || Math.random().toString(36).substr(2, 9)
     ctx.requestId = requestId
+    ctx.res.setHeader('X-Request-ID', requestId)
     session.set('requestId', requestId)
     scope.setTags(_.pickBy({
       requestId,

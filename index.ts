@@ -12,7 +12,7 @@ import * as utils from './src/utils'
 import sequelize, { models } from './db'
 import config from './config'
 import { AppContext, KoaContext } from './type'
-import { auth, sentry } from './middlewares'
+import { auth, context } from './middlewares'
 
 const server = new ApolloServer({
   typeDefs,
@@ -33,9 +33,12 @@ const server = new ApolloServer({
     }
   },
   formatError,
-  formatResponse () {
+  formatResponse (response: any) {
     apiLogger.info('Response', {
-      response: 3
+      response: {
+        data: response.data
+      },
+      duration: _.get(response, 'extensions.tracing.duration', 0) / 1000000
     })
   },
   schemaDirectives: directives,
@@ -52,7 +55,7 @@ app.use(async ({}, next) => {
 })
 app.use(bodyParser())
 app.use(auth)
-app.use(sentry)
+app.use(context)
 server.applyMiddleware({ app })
 
 const port = process.env.PORT || 4000

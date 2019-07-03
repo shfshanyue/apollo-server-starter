@@ -5,7 +5,7 @@ import _ from 'lodash'
 import { AxiosError } from 'axios'
 import Joi from '@hapi/joi'
 import { Sentry } from './sentry'
-import { Severity } from '@sentry/node';
+import { Severity } from '@sentry/node'
 
 const isProduction = process.env.NODE_ENV === 'production'
 
