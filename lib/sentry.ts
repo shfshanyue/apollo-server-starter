@@ -13,4 +13,4 @@ Sentry.init({
   // }
 })
 
-export default Sentry
+export { Sentry }

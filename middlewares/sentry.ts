@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import Sentry from '../lib/sentry'
+import { Sentry } from '../lib/sentry'
 import { session } from '../lib/session'
 import { KoaContext } from '../type'
 
