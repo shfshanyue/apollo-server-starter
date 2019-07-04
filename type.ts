@@ -45,6 +45,7 @@ export type UserRole = 'ADMIN' | 'USER';
 export interface UserContext {
   id: number;
   role: UserRole;
+  exp: number;
 };
 
 export interface AppContext {
