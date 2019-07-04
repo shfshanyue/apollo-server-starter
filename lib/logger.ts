@@ -30,3 +30,4 @@ function createLogger (label: string) {
 export const apiLogger = createLogger('api')
 export const dbLogger = createLogger('db')
 export const redisLogger = createLogger('redis')
+export const logger = createLogger('common')
