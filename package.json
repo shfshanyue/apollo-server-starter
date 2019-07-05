@@ -33,6 +33,7 @@
     "@types/node": "^12.0.2",
     "@types/rimraf": "^2.0.2",
     "@types/sequelize": "^4.28.3",
+    "@types/uuid": "^3.4.5",
     "apollo-server-koa": "^2.6.7",
     "axios": "^0.19.0",
     "bluebird": "^3.5.5",
@@ -57,6 +58,7 @@
     "sequelize-cli": "^5.5.0",
     "sequelize-typescript": "^1.0.0-beta.3",
     "ts-node": "^8.2.0",
+    "uuid": "^3.3.2",
     "validator": "^11.0.0",
     "winston": "^3.2.1"
   },

@@ -53,7 +53,10 @@ app.use(async ({}, next) => {
 app.use(bodyParser())
 app.use(auth)
 app.use(context)
-server.applyMiddleware({ app })
+server.applyMiddleware({
+  app,
+  onHealthCheck: async () => true
+})
 
 const port = process.env.PORT || 4000
 app.listen({ port }, () =>

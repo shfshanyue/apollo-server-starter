@@ -1,4 +1,5 @@
 import _ from 'lodash'
+import { v4 as uuid } from 'uuid'
 import { Sentry } from '../lib/sentry'
 import { session } from '../lib/session'
 import { KoaContext } from '../type'
@@ -12,7 +13,7 @@ export async function context (ctx: KoaContext, next: any) {
       token: ctx.header['authorization']
     } as any)
     scope.addEventProcessor(event => Sentry.Handlers.parseRequest(event, ctx.request))
-    const requestId = ctx.header['x-request-id'] || Math.random().toString(36).substr(2, 9)
+    const requestId = ctx.header['x-request-id'] || uuid()
     ctx.requestId = requestId
     ctx.res.setHeader('X-Request-ID', requestId)
     session.set('requestId', requestId)

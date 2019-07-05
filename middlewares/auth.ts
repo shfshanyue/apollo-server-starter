@@ -19,7 +19,7 @@ export async function auth (ctx: KoaContext, next: any) {
     const exp = moment(ctx.user.exp * 1000)
     if (exp.diff(new Date(), 'day') < 3) {
       const token = jwt.sign(ctx.user, config.jwtSecret, { expiresIn: '7d' })
-      ctx.res.setHeader('Token', token)
+      ctx.res.setHeader('X-Token', token)
     }
   }
   await next()

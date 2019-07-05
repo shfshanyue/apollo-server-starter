@@ -9,7 +9,10 @@ const typeDef = gql`
     name: String!
     email: String!
     createTime: DateTime!
-    todos: [Todo!] @findOption
+    todos (
+      page: Int = 1
+      pageSize: Int = 10
+    ): [Todo!] @findOption
   }
 
   extend type Query {

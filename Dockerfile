@@ -12,5 +12,6 @@ ADD . /code
 
 RUN npm run config && npm run migrate
 
+USER node
 EXPOSE 80
 CMD npm start
