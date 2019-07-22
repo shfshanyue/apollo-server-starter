@@ -12,7 +12,7 @@ const typeDef = gql`
     name: String!
     status: TodoStatus!
     createTime: DateTime!
-    user: User! @sql(dep: ["userId"]) @findOption
+    user: User! @sql(dep: ["userId"]) @relation
   }
 
   extend type Query {

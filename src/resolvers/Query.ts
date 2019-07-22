@@ -11,6 +11,7 @@ const typeDef = gql`
   ) on FIELD_DEFINITION | OBJECT
 
   directive @findOption on FIELD_DEFINITION
+  directive @relation on FIELD_DEFINITION
 
   directive @auth(
     roles: [String]

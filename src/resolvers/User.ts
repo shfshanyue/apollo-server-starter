@@ -12,7 +12,7 @@ const typeDef = gql`
     todos (
       page: Int = 1
       pageSize: Int = 10
-    ): [Todo!] @findOption
+    ): [Todo!] @relation
   }
 
   extend type Query {
