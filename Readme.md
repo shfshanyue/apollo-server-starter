@@ -142,18 +142,90 @@ function users ({}, {}, { models }, { attributes }: any) {
 }
 ```
 
+### 分页
+
+对列表添加 `page` 以及 `pageSize` 参数来进行分页
+
+``` graphql
+type User {
+  id: ID!
+  todos (
+    page: Int = 1
+    pageSize: Int = 10
+  ): [Todo!] @findOption
+}
+
+query TODOS {
+  todos (page: 1, pageSize: 10) {
+    id 
+    name
+  }
+}
+```
+
+
 ### 数据库层解决 N+1 查询问题
 
 使用 [dataloader-sequelize](https://github.com/mickhansen/dataloader-sequelize) 解决数据库查询的 batch 问题
 
-``` sql
--- 解决 N+1 问题前
-select id, name from users where id = 1
-select id, name from users where id = 2
-select id, name from users where id = 3
+当使用以下查询时，会出现 N+1 查询问题
 
--- 解决 N+1 问题后
-select id, name from users where id in (1, 2, 3)
+``` gql
+{
+  users (page: 1, pageSize: 3) {
+    id
+    todos {
+      id 
+      name
+    } 
+  }
+}
+```
+
+如果不做优化，生成的 `SQL` 如下
+
+``` sql
+select id from users limit 3
+
+select id, name from todo where user_id = 1
+select id, name from todo where user_id = 2
+select id, name from todo where user_id = 3
+```
+
+而使用 `dataloader` 解决 N+1 问题后，会大大减少 `SQL` 语句的条数，生成的 `SQL` 如下
+
+``` sql
+select id from users limit 3
+
+select id, name, user_id from todo where user_id in (1, 2, 3)
+```
+
+> 注意 Batch 请求后需要返回 `user_id` 字段，为了重新分组
+
+### N+1 Query 优化后问题
+
+当有如下所示多级分页查询时，N+1 优化失效，所以应避免多级分页操作
+
+> 此处只能在客户端避免多层分页查询，而当有恶意查询时会加大服务器压力。可以使用以下的 Hash Query 避免此类问题
+
+``` gql
+{
+  users (page: 1, pageSize: 3) {
+    id
+    todos (page: 1, pageSize: 3) {
+      id 
+      name
+    } 
+  }
+}
+```
+
+``` sql
+select id from users limit 3
+
+select id, name from todo where user_id = 1 limit 3
+select id, name from todo where user_id = 2 limit 3
+select id, name from todo where user_id = 3 limit 3
 ```
 
 ### 使用 DataLoader 解决 N+1 查询问题
@@ -222,27 +294,6 @@ function visitFieldDefinition (field: GraphQLField<any, AppContext>) {
 ### jwt 与 token 更新
 
 当用户认证成功时，检查其 token 有效期，如果剩余一半时间，则生成新的 token 并赋值到响应头中。
-
-### 分页
-
-对列表添加 `page` 以及 `pageSize` 参数来进行分页
-
-``` graphql
-type User {
-  id: ID!
-  todos (
-    page: Int = 1
-    pageSize: Int = 10
-  ): [Todo!] @findOption
-}
-
-query TODOS {
-  todos (page: 1, pageSize: 10) {
-    id 
-    name
-  }
-}
-```
 
 ### 用户角色验证
 

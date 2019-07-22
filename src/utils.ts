@@ -65,6 +65,12 @@ export function parsePage (page: number | undefined, pageSize: number | undefine
   limit: number | undefined,
   offset: number | undefined
 } {
+  if (page === 0) {
+    return {
+      limit: undefined,
+      offset: undefined
+    }
+  }
   if (!pageSize) {
     pageSize = !page ? undefined : 10
   }

@@ -10,10 +10,7 @@ const typeDef = gql`
     col: String
   ) on FIELD_DEFINITION | OBJECT
 
-  directive @findOption(
-    page: Int
-    pageSize: Int
-  ) on FIELD_DEFINITION
+  directive @findOption on FIELD_DEFINITION
 
   directive @auth(
     roles: [String]

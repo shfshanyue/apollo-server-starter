@@ -16,7 +16,10 @@ const typeDef = gql`
   }
 
   extend type Query {
-    users: [User!] @findOption
+    users (
+      page: Int = 1 
+      pageSize: Int = 10
+    ): [User!] @findOption
   }
 
   extend type Mutation {
@@ -37,16 +40,20 @@ const typeDef = gql`
 
 const resolver: SequelizeResolverObject = {
   User: {
-    todos (user, {}, {}, { attributes }: any) {
+    todos (user, {}, {}, { attributes, limit, offset }: any) {
       return user.$get('todos', {
-        attributes
+        attributes,
+        limit,
+        offset
       })
     }
   },
   Query: {
-    users ({}, {}, { models }, { attributes }: any) {
+    users ({}, {}, { models }, { attributes, limit, offset }: any) {
       return models.User.findAll({
-        attributes
+        attributes,
+        limit,
+        offset
       })
     }
   },
