@@ -1,4 +1,5 @@
 import { Sequelize } from 'sequelize-typescript'
+import _ from 'lodash'
 import { dbLogger } from '../lib/logger'
 import * as models from './models'
 
@@ -12,7 +13,7 @@ const sequelize = new Sequelize({
     underscored: true
   },
   logging (sql, timing) {
-    dbLogger.info(sql, { timing })
+    dbLogger.info(sql, _.isObject(timing) ? timing : { timing })
   }
 })
 

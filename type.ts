@@ -6,6 +6,9 @@ import { ProjectConfig } from './type'
 import * as utils from './src/utils'
 import { Exception } from './lib/error'
 import { models } from './db'
+import { dependencies } from './config/consul'
+
+export type WithRequired<T, K extends keyof T> = T & Required<Pick<T, K>>;
 
 export interface Dictionary<T> {
   [index: string]: T;
@@ -23,9 +26,9 @@ export interface ProjectConfig {
   salt: string;
   jwtSecret: string;
   sentryDSN: string;
-}
+};
 
-export type AppConfig = {
+export interface ConsulConfig {
   pg: {
     dialect: string;
     port: string;
@@ -38,7 +41,9 @@ export type AppConfig = {
     host: string;
     password: string;
   }
-} & ProjectConfig;
+};
+
+export type AppConfig = ConsulConfig & ProjectConfig;
 
 export type UserRole = 'ADMIN' | 'USER';
 

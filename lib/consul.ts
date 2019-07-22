@@ -1,10 +1,11 @@
 import _ from 'lodash'
 import Consul from 'consul'
+import { host, port } from '../config/consul'
 
 export const consul = Consul({
   promisify: true,
-  host: '172.18.0.1',
-  port: '8500'
+  host,
+  port
 })
 
 export async function getValueByKey (key: string): Promise<any> {
