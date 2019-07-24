@@ -5,8 +5,7 @@ import { Redis } from 'ioredis'
 import { ProjectConfig } from './type'
 import * as utils from './src/utils'
 import { Exception } from './lib/error'
-import { models } from './db'
-import { dependencies } from './config/consul'
+import { models, contextOption } from './db'
 
 export type WithRequired<T, K extends keyof T> = T & Required<Pick<T, K>>;
 
@@ -55,6 +54,7 @@ export interface UserContext {
 
 export interface AppContext {
   sequelize: Sequelize;
+  contextOption: typeof contextOption;
   models: Models;
   config: AppConfig;
   utils: typeof utils;

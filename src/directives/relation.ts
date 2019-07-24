@@ -14,7 +14,7 @@ class RelationDirective extends SchemaDirectiveVisitor {
       if (_.get(root, name)) {
         return _.get(root, name)
       }
-      const { models, utils } = ctx
+      const { models, utils, contextOption } = ctx
 
       const sourceModel = root.constructor as typeof Model
       const association = sourceModel.associations[name]
@@ -35,7 +35,8 @@ class RelationDirective extends SchemaDirectiveVisitor {
         attributes,
         order,
         limit,
-        offset
+        offset,
+        ...contextOption
       })
     }
   }

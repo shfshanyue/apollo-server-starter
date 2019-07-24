@@ -39,15 +39,6 @@ const typeDef = gql`
 `
 
 const resolver: SequelizeResolverObject = {
-  User: {
-    todos (user, {}, {}, { attributes, limit, offset }: any) {
-      return user.$get('todos', {
-        attributes,
-        limit,
-        offset
-      })
-    }
-  },
   Query: {
     users ({}, {}, { models }, { attributes, limit, offset }: any) {
       return models.User.findAll({

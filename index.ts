@@ -6,7 +6,7 @@ import { formatError, Exception, apiLogger, session, redis } from './lib'
 import { typeDefs, resolvers } from './src'
 import directives from './src/directives'
 import * as utils from './src/utils'
-import sequelize, { models } from './db'
+import sequelize, { models, contextOption } from './db'
 import config from './config'
 import { AppContext, KoaContext } from './type'
 import { auth, context } from './middlewares'
@@ -21,6 +21,7 @@ const server = new ApolloServer({
     })
     return {
       sequelize,
+      contextOption,
       models,
       config,
       utils,
