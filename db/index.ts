@@ -1,8 +1,9 @@
 import { Sequelize } from 'sequelize-typescript'
 import _ from 'lodash'
-import { dbLogger, cache } from '../lib'
+import { dbLogger, cache, session } from '../lib'
 import * as models from './models'
 
+Sequelize.useCLS(session)
 const { createContext, EXPECTED_OPTIONS_KEY } = require('dataloader-sequelize')
 
 const config = require('../config/db.json')
