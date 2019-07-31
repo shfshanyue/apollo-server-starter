@@ -2,6 +2,8 @@ import { ApolloServer } from 'apollo-server-koa'
 import Koa from 'koa'
 import bodyParser from 'koa-bodyparser'
 import _ from 'lodash'
+import responseCachePlugin from 'apollo-server-plugin-response-cache'
+import { RedisCache } from 'apollo-server-cache-redis'
 import { formatError, Exception, apiLogger, session, redis } from './lib'
 import { typeDefs, resolvers } from './src'
 import directives from './src/directives'
@@ -39,6 +41,14 @@ const server = new ApolloServer({
       duration: _.get(response, 'extensions.tracing.duration', 0) / 1000000
     })
   },
+  cacheControl: {
+    defaultMaxAge: 5
+  },
+  cache: new RedisCache({
+    host: config.redis.host,
+    password: config.redis.password
+  }),
+  plugins: [responseCachePlugin()],
   schemaDirectives: directives,
   rootValue: {},
   playground: true,
