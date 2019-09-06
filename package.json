@@ -8,6 +8,7 @@
     "start": "ts-node index.ts",
     "dev": "nodemon index.ts",
     "update": "ncu",
+    "env:db": "docker-compose -f env.compose.yml up",
     "debug": "nodemon --exec 'node --inspect=0.0.0.0:9930 --require ts-node/register index.ts'",
     "config": "ts-node scripts/pullConfig",
     "migrate": "sequelize db:migrate --config ./config/db.json --migrations-path ./db/migrations",
