@@ -11,6 +11,7 @@
     "env:db": "docker-compose -f env.compose.yml up",
     "debug": "nodemon --exec 'node --inspect=0.0.0.0:9930 --require ts-node/register index.ts'",
     "config": "ts-node scripts/pullConfig",
+    "create-schema": "ts-node scripts/createSchema",
     "migrate": "sequelize db:migrate --config ./config/db.json --migrations-path ./db/migrations",
     "migrate:new": "sequelize migration:generate --config ./config/db.json --migrations-path ./db/migrations --name $name",
     "migrate:undo": "sequelize db:migrate:undo --config ./config/db.json --migrations-path ./db/migrations"
