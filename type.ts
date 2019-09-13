@@ -1,8 +1,7 @@
-import { Sequelize } from 'sequelize-typescript'
+import { Sequelize, SequelizeOptions } from 'sequelize-typescript'
 import { ParameterizedContext } from 'koa'
 import { IResolverObject } from 'graphql-tools'
-import { Redis } from 'ioredis'
-import { ProjectConfig } from './type'
+import { Redis, RedisOptions } from 'ioredis'
 import * as utils from './src/utils'
 import { Exception } from './lib/error'
 import { models, contextOption } from './db'
@@ -25,21 +24,12 @@ export interface ProjectConfig {
   salt: string;
   jwtSecret: string;
   sentryDSN: string;
+  [key: string]: any;
 };
 
 export interface ConsulConfig {
-  pg: {
-    dialect: string;
-    port: string;
-    host: string;
-    username: string;
-    password: string;
-  },
-  redis: {
-    port: string;
-    host: string;
-    password: string;
-  }
+  db: SequelizeOptions;
+  redis: RedisOptions;
 };
 
 export type AppConfig = ConsulConfig & ProjectConfig;

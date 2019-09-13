@@ -1,9 +1,9 @@
-// 写入 config.json 以及 db.json 文件
+// write to config.json and db.json
 
 import Bluebird from 'bluebird'
 import _ from 'lodash'
 import fs from 'fs'
-import { getValueByKey } from '../lib/consul'
+import { get } from '../lib/consul'
 
 import { project, dependencies } from '../config/consul'
 import projectConfig from '../config/project'
@@ -11,21 +11,21 @@ import projectConfig from '../config/project'
 const CONFIG_FILE_PATH = `${__dirname}/../config/config.json`
 const DB_CONFIG_FILE_PATH = `${__dirname}/../config/db.json`
 
-const DB = 'todos'
-
-Bluebird.map([...dependencies, project], async key => {
-  const config = await getValueByKey(key)
-  return key === project ? { ...projectConfig, ...config[project]} : config
+Bluebird.map([...dependencies, project], async keys => {
+  keys = Array.isArray(keys) ? keys : [keys]
+  const [key, alias = key] = keys
+  const config = await get(key)
+  return key === project ? { ...projectConfig, ...config[project]} : { [alias]: config[key] }
 }).then(configs => {
   const cfg = _.assign({}, ...configs)
   fs.writeFileSync(CONFIG_FILE_PATH, JSON.stringify(cfg, null, 2), 'utf8')
 
   const dbCfg = {
-    username: cfg.pg.username,
-    password: cfg.pg.password,
-    database: DB,
-    host: cfg.pg.host,
-    port: cfg.pg.port,
+    username: cfg.db.username,
+    password: cfg.db.password,
+    database: cfg.db.database,
+    host: cfg.db.host,
+    port: cfg.db.port,
     dialect: 'postgres'
   }
   fs.writeFileSync(DB_CONFIG_FILE_PATH, JSON.stringify(dbCfg, null, 2), 'utf8')

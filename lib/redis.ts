@@ -2,10 +2,7 @@ import Redis from 'ioredis'
 import { redisLogger } from './logger'
 import config from '../config'
 
-const redis = new Redis({
-  host: config.redis.host,
-  password: config.redis.password
-})
+const redis = new Redis(config.redis)
 
 const { sendCommand } = Redis.prototype
 Redis.prototype.sendCommand = async function (...options: any[]) {
