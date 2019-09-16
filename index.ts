@@ -4,7 +4,7 @@ import bodyParser from 'koa-bodyparser'
 import _ from 'lodash'
 import responseCachePlugin from 'apollo-server-plugin-response-cache'
 import { RedisCache } from 'apollo-server-cache-redis'
-import { formatError, Exception, apiLogger, session, redis } from './lib'
+import { formatError, Exception, responseLogger, queryLogger, session, redis } from './lib'
 import { typeDefs, resolvers } from './src'
 import directives from './src/directives'
 import * as utils from './src/utils'
@@ -17,8 +17,12 @@ const server = new ApolloServer({
   typeDefs,
   resolvers,
   context ({ ctx }: { ctx: KoaContext }): AppContext {
-    apiLogger.info('Request', {
-      request: ctx.request,
+    const body = ctx.request.body || {}
+    queryLogger.info(body.query, {
+      operationName: body.operationName,
+      query: body.query,
+      variables: body.variables,
+      ip: ctx.request.ip,
       user: ctx.user
     })
     return {
@@ -34,10 +38,8 @@ const server = new ApolloServer({
   },
   formatError,
   formatResponse (response: any) {
-    apiLogger.info('Response', {
-      response: {
-        data: response.data
-      },
+    responseLogger.info('Response', {
+      data: response.data,
       duration: _.get(response, 'extensions.tracing.duration', 0) / 1000000
     })
   },

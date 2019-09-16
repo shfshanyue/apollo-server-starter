@@ -10,7 +10,7 @@ const requestId = format((info) => {
 function createLogger (label: string) {
   return winston.createLogger({
     defaultMeta: {
-      serverName: os.hostname,
+      serverName: os.hostname(),
       label
     },
     format: format.combine(
@@ -27,7 +27,8 @@ function createLogger (label: string) {
   })
 }
 
-export const apiLogger = createLogger('api')
+export const queryLogger = createLogger('query')
+export const responseLogger = createLogger('response')
 export const dbLogger = createLogger('db')
 export const redisLogger = createLogger('redis')
 export const logger = createLogger('common')
