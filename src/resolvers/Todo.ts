@@ -1,6 +1,5 @@
 import { AppContext } from './../../type'
 import { gql, IResolverObject } from 'apollo-server-koa'
-import { contextOption } from '../../db'
 
 const typeDef = gql`
   enum TodoStatus {
@@ -26,7 +25,7 @@ const typeDef = gql`
 
 const resolver: IResolverObject<any, AppContext> = {
   Todo: {
-    user (todo, {}, {}, { attributes }: any) {
+    user (todo, {}, { contextOption }, { attributes }: any) {
       return todo.$get('user', {
         attributes,
         ...contextOption
@@ -34,11 +33,17 @@ const resolver: IResolverObject<any, AppContext> = {
     }
   },
   Query: {
-    todo ({}, { id }, { models }, { attributes }: any) {
+    todo ({}, { id }, { models, contextOption }, { attributes }: any) {
       return models.Todo.findByPk(id, {
         attributes,
         ...contextOption
       })
+    },
+    todos ({}, {}, { models, contextOption }, { attributes }: any) {
+      return models.Todo.findAll({
+        attributes,
+        ...contextOption
+      }) 
     }
   }
 }
