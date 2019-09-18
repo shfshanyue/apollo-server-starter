@@ -12,6 +12,7 @@ import sequelize, { models, contextOption } from './db'
 import config from './config'
 import { AppContext, KoaContext } from './type'
 import { auth, context } from './middlewares'
+import DemoPlugin from './src/plugin/httpStatus'
 
 const server = new ApolloServer({
   typeDefs,
@@ -50,7 +51,7 @@ const server = new ApolloServer({
     host: config.redis.host,
     password: config.redis.password
   }),
-  plugins: [responseCachePlugin()],
+  plugins: [responseCachePlugin(), DemoPlugin],
   schemaDirectives: directives,
   rootValue: {},
   playground: true,

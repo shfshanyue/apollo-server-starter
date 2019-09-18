@@ -106,6 +106,12 @@ npm run migrate         # 执行迁移文件
 npm run migrate:undo    # 撤销执行的迁移文件
 ```
 
+自动生成 resolve 与 数据库 model
+
+``` shell
+npm run create-schema hello   # 生成 Hello.ts 
+```
+
 ## 开发指南
 
 ### 单文件管理 `typeDef` 与 `resolver`

@@ -1,4 +1,4 @@
-import { gql, IResolverObject } from 'apollo-server-koa'
+import { gql, IResolverObject, ForbiddenError } from 'apollo-server-koa'
 import axios from 'axios'
 import fs from 'fs'
 import { AppContext } from './../../type'
@@ -29,6 +29,7 @@ const typeDef = gql`
     cache: Int
 
     authInfo: Int @auth
+    forbidden: Int
   }
 `
 
@@ -68,6 +69,9 @@ const resolver: IResolverObject<any, AppContext> = {
     },
     authInfo () {
       return 10
+    },
+    forbidden () {
+      throw new ForbiddenError('Forbidden test')
     }
   }
 }
