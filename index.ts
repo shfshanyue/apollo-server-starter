@@ -12,7 +12,12 @@ import sequelize, { models, contextOption } from './db'
 import config from './config'
 import { AppContext, KoaContext } from './type'
 import { auth, context } from './middlewares'
-import DemoPlugin from './src/plugin/httpStatus'
+import httpStatusPlugin from './src/plugin/httpStatus'
+
+const cache = new RedisCache({
+  host: config.redis.host,
+  password: config.redis.password
+})
 
 const server = new ApolloServer({
   typeDefs,
@@ -47,19 +52,22 @@ const server = new ApolloServer({
   cacheControl: {
     defaultMaxAge: 5
   },
-  cache: new RedisCache({
-    host: config.redis.host,
-    password: config.redis.password
-  }),
-  plugins: [responseCachePlugin(), DemoPlugin],
+  // prefix with fqc
+  cache,
+  // prefix with apq
+  persistedQueries: {
+    cache
+  },
+  plugins: [responseCachePlugin(), httpStatusPlugin],
   schemaDirectives: directives,
   rootValue: {},
   playground: true,
-  tracing: true
+  tracing: true,
 })
 
 const app = new Koa()
 app.use(async ({}, next) => {
+  // integreted with requestId
   await session.runPromise(() => {
     return next()
   })
