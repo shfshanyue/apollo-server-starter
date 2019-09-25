@@ -1,6 +1,7 @@
 import { gql } from 'apollo-server-koa'
 import * as Joi from '@hapi/joi'
 import jwt from 'jsonwebtoken'
+import _ from 'lodash'
 import { SequelizeResolverObject } from './../../type'
 
 const typeDef = gql`
@@ -31,10 +32,12 @@ const typeDef = gql`
     ): User!
 
     # 用户登录，如果返回 null，代表登录失败
-    createUserToken (
+    createUserToken(
       email: String!
       password: String!
     ): String
+
+    updateUserToken: String! @auth
   }
 `
 
@@ -71,6 +74,9 @@ const resolver: SequelizeResolverObject = {
         return
       }
       return jwt.sign(user, config.jwtSecret, { expiresIn: '7d' })
+    },
+    async updateUserToken ({}, {}, { user, config }) {
+      return jwt.sign(_.pick(user, ['id', 'role']), config.jwtSecret, { expiresIn: '7d' })
     }
   }
 }
