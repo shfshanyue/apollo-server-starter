@@ -1,7 +1,7 @@
 import fs from 'fs'
 import _ from 'lodash'
 
-const dbModel = `import { Table, Column, Model, AutoIncrement, PrimaryKey, BelongsTo, ForeignKey } from 'sequelize-typescript'
+const dbModelContent = `import { Table, Column, Model, AutoIncrement, PrimaryKey, BelongsTo, ForeignKey } from 'sequelize-typescript'
 import { ENUM } from 'sequelize'
 import { User } from './User'
 
@@ -35,8 +35,8 @@ export class Todo extends Model<Todo> {
 }
 `
 
-const gqlSchema = `import { AppContext } from './../../type'
-import { gql, IResolverObject } from 'apollo-server-koa'
+const gqlSchemaContent = `import { SequelizeResolverObject } from './../../type'
+import { gql } from 'apollo-server-koa'
 import { contextOption } from '../../db'
 
 const typeDef = gql\`
@@ -61,7 +61,7 @@ const typeDef = gql\`
   }
 \`
 
-const resolver: IResolverObject<any, AppContext> = {
+const resolver: SequelizeResolverObject = {
   Todo: {
     user (todo, {}, {}, { attributes }: any) {
       return todo.$get('user', {
@@ -99,8 +99,8 @@ if (fs.existsSync(modelPath) || fs.existsSync(schemaPath)) {
   console.warn('WARN: current file is exist')
 }
 
-fs.writeFileSync(`${__dirname}/../db/models/${name}.ts`, dbModel)
-fs.writeFileSync(`${__dirname}/../src/resolvers/${name}.ts`, gqlSchema)
+fs.writeFileSync(`${__dirname}/../db/models/${name}.ts`, dbModelContent.replace(/Todo/g, name).replace(/todo/g, _.lowerCase(name)))
+fs.writeFileSync(`${__dirname}/../src/resolvers/${name}.ts`, gqlSchemaContent.replace(/Todo/g, name).replace(/todo/g, _.lowerCase(name)))
 
 console.log(`Creating ${modelPath}
 Creating ${schemaPath}`)

@@ -102,7 +102,7 @@ $ npm run migrate
 $ npm run dev
 ```
 
-关于数据库的操作
+### 关于数据库的操作
 
 ``` shell
 npm run migrate:new     # 生成新的迁移文件
@@ -110,10 +110,20 @@ npm run migrate         # 执行迁移文件
 npm run migrate:undo    # 撤销执行的迁移文件
 ```
 
-自动生成 resolve 与 数据库 model
+### 自动生成 resolve 与 数据库 model
 
 ``` shell
-npm run create-schema hello   # 生成 Hello.ts 
+npm run schema hello   # 生成 Hello.ts 
+```
+
+### 查看日志
+
+``` shell
+# 查看数据库的日志
+$ npm run log:db
+
+# 查看 graphql 的日志
+$ LOG=query npm run log
 ```
 
 ## 开发指南
