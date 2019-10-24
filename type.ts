@@ -32,6 +32,7 @@ export interface ConsulConfig {
   redis: RedisOptions;
 };
 
+// type of config/config.json
 export type AppConfig = ConsulConfig & ProjectConfig;
 
 export type UserRole = 'ADMIN' | 'USER';

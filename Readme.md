@@ -64,9 +64,31 @@
 + `postgres` 你需要指定 database，用于生成 table
 + `redis`
 
-## 开始
+## 快速开始
+
+如果你不使用 `consul` 管理配置
+
+> key/value 由 config/config.json 与 config/db.json 维护，你需要先把 example.json 改成 config.json
+
+``` shell
+$ git clone git@github.com:shfshanyue/apollo-server-starter.git
+$ cd apollo-server-starter
+
+# 如果没有数据库，准备数据库 db/redis 的环境 (使用 docker)
+$ npm run env:db
+
+# 使用配置文件
+$ cp config/config.example.json config/config.json
+$ cp config/db.example.json config/db.json
+
+# 迁移数据库，事先你需要创建 database
+$ npm run migrate
+$ npm run dev
+```
 
 如果你使用 `consul` 管理配置
+
+> key/value 由 consul 维护，由 script/pullConfig.ts 拉取配置生成 config/config.json
 
 ``` shell
 $ git clone git@github.com:shfshanyue/apollo-server-starter.git
@@ -77,24 +99,6 @@ $ npm run config
 
 # 迁移数据库，事先你需要创建 database
 $ npm run migrate      
-$ npm run dev
-```
-
-如果你不使用 `consul` 管理配置
-
-``` shell
-$ git clone git@github.com:shfshanyue/apollo-server-starter.git
-$ cd apollo-server-starter
-
-# 准备数据库 pg/redis 的环境 (使用 docker)
-$ npm run env:db
-
-# 使用配置文件
-$ cp config/config.example.json config/config.json
-$ cp config/db.example.json config/db.json
-
-# 迁移数据库，事先你需要创建 database
-$ npm run migrate
 $ npm run dev
 ```
 
