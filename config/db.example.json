@@ -1,7 +1,7 @@
 {
-  "username": "postgres",
   "database": "todos",
-  "host": "172.18.0.1",
+  "dialect": "postgres",
+  "host": "pg-postgresql",
   "port": 5432,
-  "dialect": "postgres"
+  "username": "postgres"
 }
