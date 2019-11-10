@@ -8,24 +8,20 @@
 + `PostgresSQL`, `Redis`, [ioredis](https://github.com/luin/ioredis), [sequelize](https://github.com/sequelize/sequelize), [lru-cache](https://github.com/isaacs/node-lru-cache)  -- 存储
 + [TypeScript](https://github.com/zhongsp/TypeScript), [sequelize-typescript](https://github.com/RobinBuschmann/sequelize-typescript) -- ts 支持
 + `Joi`, `consul`, [node-consul](https://github.com/silas/node-consul#readme), [winston](https://github.com/winstonjs/winston), [sentry](https://github.com/getsentry/sentry-javascript) -- 校验，配置，日志与报警
-+ `Docker`, `docker-compose`, `gitlab-CI`, `traefik`, ~~`kubernetes`~~ -- 部署
++ `Docker`, `docker-compose`, `gitlab-CI`, `traefik`, `kubernetes` -- 部署
 
 ## 目录结构
 
 ``` bash
 .
 ├── config                  # 配置文件
-│   ├── config.json         # 自动生成，有 consul 拉取
-│   ├── consul.ts           # 关于 consul 拉取配置的配置文件
-│   ├── db.json             # 自动生成，由 consul 拉取
-│   ├── index.ts            # 导出 config.json
-│   └── project.ts          # 关于本项目的私有配置，将与 consul 中的私有配置合并
+│   ├── db.js               # 数据库配置文件，主要被 sequelize-cli 使用
+│   └── index.ts            # 关于本项目的配置，包括数据库，redis，主要从环境变量中读取
 ├── db                      # 关于 db
 │   ├── index.ts            # 关于数据库的配置以及日志 (sequelize)
 │   ├── migrations/         # 关于数据库的迁移脚本
 │   └── models/             # 关于数据库的 Model (typescript-sequelize)
 ├── lib                     # 关于 lib
-│   ├── consul.ts           # 关于 consul 的初始化
 │   ├── error.ts            # 异常的结构化与自定义异常
 │   ├── logger.ts           # 关于日志的配置 (winston)
 │   ├── redis.ts            # 关于 redis 的配置以及日志 (ioredis)
@@ -41,14 +37,16 @@
 │   ├── context.ts          # requestId，以及一些列上下文打进日志以及 Sentry
 │   └── index.ts            # 导出所有中间件
 ├── scripts                 # 脚本
-│   └── pullConfig.ts       # 使用 consul 拉取配置并自动生成配置至 config/
+│   └── createSchema.ts     # 自动生成 graphql schema 与数据库 schema 的脚本
 ├── src                     # 关于 graphql 的一系列
 │   ├── index.ts            # graphql typeDefs & resolvers
 │   ├── directives/         # graphql directives
 │   ├── resolvers/          # graphql resolvers (Mutation & Query)
 │   ├── scalars/            # graphql scalars
 │   └── utils.ts            # graphql 的辅助函数
+├── .env.example            # 数据库与redis的配置，以及一些敏感数据
 ├── Dockerfile              # Dockerfile
+├── db.docker-compose.yml   # 数据库环境准备
 ├── docker-compose.yml      # docker-compose
 ├── package-lock.json       # pakcage-lock.json
 ├── package.json            # package.json
@@ -57,48 +55,29 @@
 └── type.ts                 # typescript 支持
 ```
 
-## 预备条件
+## 准备条件
 
-+ `consul` 你需要它管理配置，如果没有，可以根据 `type.ts` 中的 `AppConfig` 补充 config.json
-+ `sentry` 你需要它上报异常，如果没有，可以先注释掉代码...
-+ `postgres` 你需要指定 database，用于生成 table
-+ `redis`
++ `docker`，你需要使用它先启动 redis 与 postgres
++ `redis`/`postgres`，如果你有数据库，则可以使用现成的数据库，而无需 `docker` 部署及启动
 
 ## 快速开始
 
-如果你不使用 `consul` 管理配置
-
-> key/value 由 config/config.json 与 config/db.json 维护，你需要先把 example.json 改成 config.json
+如果没有现成的数据库，需要准备数据库 db/redis 的环境 (使用 docker，你需要有 docker 环境)，使用命令 `npm run env:db`。
 
 ``` shell
 $ git clone git@github.com:shfshanyue/apollo-server-starter.git
 $ cd apollo-server-starter
 
-# 如果没有数据库，准备数据库 db/redis 的环境 (使用 docker)
+# 如果没有现成的数据库，准备数据库 db/redis 的环境 (使用 docker)
 $ npm run env:db
 
-# 使用配置文件
-$ cp config/config.example.json config/config.json
-$ cp config/db.example.json config/db.json
+# 配置环境变量
+$ cp .env.example .env
 
-# 迁移数据库，事先你需要创建 database
+# 迁移数据库
 $ npm run migrate
-$ npm run dev
-```
 
-如果你使用 `consul` 管理配置
-
-> key/value 由 consul 维护，由 script/pullConfig.ts 拉取配置生成 config/config.json
-
-``` shell
-$ git clone git@github.com:shfshanyue/apollo-server-starter.git
-$ cd apollo-server-starter
-
-# 拉取 consul 上的配置，生成 config/config.json
-$ npm run config
-
-# 迁移数据库，事先你需要创建 database
-$ npm run migrate      
+# 开始开发
 $ npm run dev
 ```
 
@@ -113,7 +92,7 @@ npm run migrate:undo    # 撤销执行的迁移文件
 ### 自动生成 resolve 与 数据库 model
 
 ``` shell
-npm run schema hello   # 生成 Hello.ts 
+npm run schema hello   # 生成 Hello.ts
 ```
 
 ### 查看日志
@@ -201,7 +180,7 @@ type User {
 
 query TODOS {
   todos (page: 1, pageSize: 10) {
-    id 
+    id
     name
   }
 }
@@ -219,9 +198,9 @@ query TODOS {
   users (page: 1, pageSize: 3) {
     id
     todos {
-      id 
+      id
       name
-    } 
+    }
   }
 }
 ```
@@ -257,9 +236,9 @@ select id, name, user_id from todo where user_id in (1, 2, 3)
   users (page: 1, pageSize: 3) {
     id
     todos (page: 1, pageSize: 3) {
-      id 
+      id
       name
-    } 
+    }
   }
 }
 ```

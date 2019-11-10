@@ -1,6 +1,5 @@
 node_modules
 dist
-config/config.json
-config/db.json
 db/_schemas
 logs
+.env
