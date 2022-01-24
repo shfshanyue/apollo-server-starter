@@ -14,7 +14,7 @@ interface Resolver {
 const initResolver: Resolver = {
   typeDefs: [scalarTypeDefs],
   resolvers: {
-    ...scalarResovers
+    ...scalarResovers as any
   }
 }
 

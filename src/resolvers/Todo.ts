@@ -3,7 +3,7 @@ import { gql, IResolverObject } from 'apollo-server-koa'
 
 const typeDef = gql`
   enum TodoStatus {
-    DONE 
+    DONE
     UNDO
   }
 
@@ -43,7 +43,7 @@ const resolver: IResolverObject<any, AppContext> = {
       return models.Todo.findAll({
         attributes,
         ...contextOption
-      }) 
+      })
     }
   }
 }

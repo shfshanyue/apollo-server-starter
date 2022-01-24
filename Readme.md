@@ -2,6 +2,35 @@
 
 使用 [apollo-server](https://github.com/apollographql/apollo-server) 帮助你快速开发 [GraphQL](https://github.com/graphql/graphql-js)。
 
+## 准备条件
+
++ `docker`，你需要使用它先启动 redis 与 postgres
++ `redis`/`postgres`，如果你有数据库，则可以使用现成的数据库，而无需 `docker` 部署及启动
+
+## 快速开始
+
+如果没有现成的数据库，需要准备数据库 db/redis 的环境 (使用 docker，你需要有 docker 环境)，使用命令 `npm run env:db`。
+
+``` bash
+$ git clone git@github.com:shfshanyue/apollo-server-starter.git
+$ cd apollo-server-starter
+
+# 如果没有现成的数据库，准备数据库 db/redis 的环境 (使用 docker)
+# 该命令通过 docker-compose -f db.compose.yml up，搭建本地数据库
+# redis6: https://hub.docker.com/_/redis
+# postgres14: https://hub.docker.com/_/postgres
+$ npm run env:db
+
+# 配置环境变量
+$ cp .env.example .env
+
+# 迁移数据库
+$ npm run migrate
+
+# 开始开发
+$ npm run dev
+```
+
 ## 技术栈
 
 + [GraphQL.js](https://github.com/graphql/graphql-js), [apollo-server](https://github.com/apollographql/apollo-server), [koa](https://github.com/koajs/koa), [DataLoader](https://github.com/graphql/dataloader) —- API 层
@@ -55,35 +84,9 @@
 └── type.ts                 # typescript 支持
 ```
 
-## 准备条件
-
-+ `docker`，你需要使用它先启动 redis 与 postgres
-+ `redis`/`postgres`，如果你有数据库，则可以使用现成的数据库，而无需 `docker` 部署及启动
-
-## 快速开始
-
-如果没有现成的数据库，需要准备数据库 db/redis 的环境 (使用 docker，你需要有 docker 环境)，使用命令 `npm run env:db`。
-
-``` shell
-$ git clone git@github.com:shfshanyue/apollo-server-starter.git
-$ cd apollo-server-starter
-
-# 如果没有现成的数据库，准备数据库 db/redis 的环境 (使用 docker)
-$ npm run env:db
-
-# 配置环境变量
-$ cp .env.example .env
-
-# 迁移数据库
-$ npm run migrate
-
-# 开始开发
-$ npm run dev
-```
-
 ### 关于数据库的操作
 
-``` shell
+``` bash
 npm run migrate:new     # 生成新的迁移文件
 npm run migrate         # 执行迁移文件
 npm run migrate:undo    # 撤销执行的迁移文件
@@ -91,13 +94,13 @@ npm run migrate:undo    # 撤销执行的迁移文件
 
 ### 自动生成 resolve 与 数据库 model
 
-``` shell
-npm run schema hello   # 生成 Hello.ts
+``` bash
+$ npm run schema hello   # 生成 Hello.ts
 ```
 
 ### 查看日志
 
-``` shell
+``` bash
 # 查看数据库的日志
 $ npm run log:db
 
@@ -348,7 +351,7 @@ const requestId = format((info) => {
 
 结构化 API 异常信息，其中 `extensions.code` 代表异常错误码，方便调试以及前端使用。`extensions.exception` 代表原始异常，堆栈以及详细信息。注意在生产环境需要屏蔽掉 `extensions.exception`
 
-``` shell
+``` bash
 $ curl 'https://todo.xiange.tech/graphql' -H 'Content-Type: application/json' --data-binary '{"query":"{\n  dbError\n}"}'
 {
   "errors": [
@@ -462,7 +465,7 @@ Sentry.withScope(scope => {
 
 在 `k8s` 上根据健康检查监控应用状态，当应用发生异常时可以及时响应并解决
 
-``` shell
+``` bash
 $ curl http://todo.xiange.tech/.well-known/apollo/server-health
 {"status":"pass"}
 ```

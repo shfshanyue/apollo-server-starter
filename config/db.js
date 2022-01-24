@@ -1,4 +1,5 @@
 // 被 sequelize-cli 使用
+require('dotenv').config()
 
 module.exports = {
   database: process.env.DB_DATABASE,

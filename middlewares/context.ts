@@ -12,9 +12,9 @@ export async function context (ctx: KoaContext, next: any) {
       ...ctx.user,
       token: ctx.header['authorization']
     } as any)
-    scope.addEventProcessor(event => Sentry.Handlers.parseRequest(event, ctx.request))
+    scope.addEventProcessor(event => Sentry.Handlers.parseRequest(event, ctx.request as any))
     const requestId = ctx.header['x-request-id'] || uuid()
-    ctx.requestId = requestId
+    ctx.requestId = requestId as any
     ctx.res.setHeader('X-Request-ID', requestId)
     session.set('requestId', requestId)
     scope.setTags(_.pickBy({

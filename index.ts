@@ -48,6 +48,7 @@ const server = new ApolloServer({
       data: response.data,
       duration: _.get(response, 'extensions.tracing.duration', 0) / 1000000
     })
+    return null
   },
   cacheControl: {
     defaultMaxAge: 5
@@ -58,7 +59,7 @@ const server = new ApolloServer({
   persistedQueries: {
     cache
   },
-  plugins: [responseCachePlugin(), httpStatusPlugin],
+  plugins: [responseCachePlugin() as any, httpStatusPlugin],
   schemaDirectives: directives,
   rootValue: {},
   playground: true,
