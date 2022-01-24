@@ -1,7 +1,8 @@
-import { gql, IResolverObject, ForbiddenError } from 'apollo-server-koa'
+import { gql, ForbiddenError } from 'apollo-server-koa'
 import axios from 'axios'
 import fs from 'fs'
 import { AppContext } from './../../type'
+import { IExecutableSchemaDefinition } from '@graphql-tools/schema'
 
 const typeDef = gql`
   directive @sql(
@@ -33,7 +34,7 @@ const typeDef = gql`
   }
 `
 
-const resolver: IResolverObject<any, AppContext> = {
+const resolver: IExecutableSchemaDefinition<AppContext>['resolvers'] = {
   Query: {
     hello () {
       return 'hello, world'

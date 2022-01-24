@@ -18,7 +18,7 @@ const typeDef = gql`
 
   extend type Query {
     users (
-      page: Int = 1 
+      page: Int = 1
       pageSize: Int = 10
     ): [User!] @findOption
   }

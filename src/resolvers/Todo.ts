@@ -1,5 +1,5 @@
-import { AppContext } from './../../type'
-import { gql, IResolverObject } from 'apollo-server-koa'
+import { AppResolvers } from './../../type'
+import { gql } from 'apollo-server-koa'
 
 const typeDef = gql`
   enum TodoStatus {
@@ -23,7 +23,7 @@ const typeDef = gql`
   }
 `
 
-const resolver: IResolverObject<any, AppContext> = {
+const resolver: AppResolvers = {
   Todo: {
     user (todo, {}, { contextOption }, { attributes }: any) {
       return todo.$get('user', {

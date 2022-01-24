@@ -1,6 +1,7 @@
 import { Sequelize, SequelizeOptions } from 'sequelize-typescript'
-import { ParameterizedContext } from 'koa'
-import { IResolverObject } from 'graphql-tools'
+import type { ParameterizedContext } from 'koa'
+import type { IExecutableSchemaDefinition } from '@graphql-tools/schema'
+import { TypeSource, IResolvers, IResolverValidationOptions, GraphQLParseOptions, PruneSchemaOptions } from '@graphql-tools/utils';
 import { Redis, RedisOptions } from 'ioredis'
 import * as utils from './src/utils'
 import { Exception } from './lib/error'
@@ -54,15 +55,17 @@ export interface AppContext {
   Exception: typeof Exception;
 };
 
+export type AppResolvers = IExecutableSchemaDefinition<AppContext>['resolvers']
+
 export interface KoaContext extends ParameterizedContext {
   user?: UserContext;
   requestId: string;
 };
 
-type ResolverModel<T> = IResolverObject<T, Required<AppContext>>
+type ResolverModel<T> = IResolvers<T, Required<AppContext>>
 
 export type SequelizeResolverObject = {
   // [key in keyof typeof models]?: IResolverObject<models[key], AppContext>
   User?: ResolverModel<models.User>;
   Todo?: ResolverModel<models.Todo>;
-} & IResolverObject<any, Required<AppContext>>
+} & IResolvers<any, Required<AppContext>>

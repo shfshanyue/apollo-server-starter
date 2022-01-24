@@ -1,5 +1,5 @@
-import { gql, IResolverObject } from 'apollo-server-koa'
-import { AppContext } from './../../type'
+import { gql } from 'apollo-server-koa'
+import { AppResolvers } from './../../type'
 
 const typeDef = gql`
   type Mutation {
@@ -7,7 +7,7 @@ const typeDef = gql`
   }
 `
 
-const resolver: IResolverObject<any, AppContext> = {
+const resolver: AppResolvers = {
   Mutation: {
     hello () {
       return 'hello, world'
