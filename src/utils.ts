@@ -18,9 +18,9 @@ const graphqlFields = require('graphql-fields')
 
 function getObjectType (type: GraphQLWrappingType): GraphQLObjectType {
   while (!isObjectType(type)) {
-    type = type.ofType
+    type = type.ofType as any
   }
-  return type
+  return type as GraphQLObjectType
 }
 
 export function getModelAttrs (info: GraphQLResolveInfo, models: Dictionary<typeof Model>, field?: string): string[] | undefined {
@@ -58,7 +58,7 @@ export function getModelAttrs (info: GraphQLResolveInfo, models: Dictionary<type
 /**
  * @param  {number=1} page
  * @param  {number|undefined=undefined} pageSize
- * @returns 
+ * @returns
  */
 
 export function parsePage (page: number | undefined, pageSize: number | undefined): {
