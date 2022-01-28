@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "composite": true,
-    "target": "es2016",
+    "target": "es2020",
     "module": "commonjs",
     "moduleResolution": "node",
     "esModuleInterop": true,
@@ -14,7 +14,7 @@
     "strictPropertyInitialization": false,
     "noUnusedParameters": true,
     "resolveJsonModule": true,
-    "noUnusedLocals": true,
+    // "noUnusedLocals": true,
     "forceConsistentCasingInFileNames": true,
     "lib": ["es2017", "esnext.asynciterable"],
     "experimentalDecorators": true,

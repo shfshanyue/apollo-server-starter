@@ -59,7 +59,7 @@ const resolver: SequelizeResolverObject = {
         name,
         email,
         password: utils.hash(password)
-      })
+      } as any)
     },
     async createUserToken ({}, { email, password }, { models, utils, config }) {
       const user = await models.User.findOne({

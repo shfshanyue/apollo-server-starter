@@ -10,7 +10,7 @@ const typeDef = gql`
   scalar Time
 `
 
-const resolver = {
+const resolver: any = {
   JSON: GraphQLJSON,
   DateTime: GraphQLDateTime,
   Date: GraphQLDate,

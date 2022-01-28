@@ -1,6 +1,5 @@
 import { SequelizeOptions } from 'sequelize-typescript'
 import { RedisOptions } from 'ioredis'
-
 import { config as env } from 'dotenv'
 
 env()
