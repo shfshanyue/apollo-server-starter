@@ -40,7 +40,7 @@ const resolver: IExecutableSchemaDefinition<AppContext>['resolvers'] = {
       return 'hello, world'
     },
     cache ({}, {}, { redis }) {
-      return redis.get('hello')
+      return redis.getset('hello', 10086)
     },
     typeError () {
       const o: any = undefined
@@ -64,7 +64,7 @@ const resolver: IExecutableSchemaDefinition<AppContext>['resolvers'] = {
     dbError ({}, {}, { models }) {
       return models.User.count({
         where: {
-          a: 3
+          // a: 3
         }
       })
     },
