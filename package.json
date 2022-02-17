@@ -15,6 +15,9 @@
     "migrate": "sequelize db:migrate --config ./config/db.js --migrations-path ./db/migrations",
     "migrate:new": "sequelize migration:generate --config ./config/db.js --migrations-path ./db/migrations --name $name",
     "migrate:undo": "sequelize db:migrate:undo --config ./config/db.js --migrations-path ./db/migrations",
+    "seed": "sequelize db:seed:all --config ./config/db.js --seeders-path ./db/seeders",
+    "seed:new": "sequelize seed:generate --config ./config/db.js --seeders-path ./db/seeders --name $name",
+    "seed:undo": "sequelize db:seed:undo --config ./config/db.js --seeders-path ./db/seeders --name $name",
     "log:db": "tail -f logs/db.log  | jq '. | {message, requestId}'",
     "log": "tail -f logs/$LOG.log | jq '. | {message, requestId}'"
   },
