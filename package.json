@@ -61,6 +61,7 @@
     "graphql-tag": "^2.12.6",
     "graphql-type-json": "^0.3.2",
     "ioredis": "^4.28.5",
+    "joi": "^17.6.0",
     "jsonwebtoken": "^8.5.1",
     "koa": "^2.13.4",
     "lodash": "^4.17.21",

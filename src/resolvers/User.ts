@@ -1,5 +1,5 @@
 import { gql } from 'apollo-server-koa'
-import * as Joi from '@hapi/joi'
+import * as Joi from 'joi'
 import jwt from 'jsonwebtoken'
 import _ from 'lodash'
 import { SequelizeResolverObject } from './../../type'
